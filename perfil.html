@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil - Agendamento+</title>
+  
+  <!-- Meta tags para PWA e responsividade -->
+  <meta name="theme-color" content="#007bff">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#007bff">
+  <meta name="msapplication-navbutton-color" content="#007bff">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- CSS do Header -->
+  <link rel="stylesheet" href="header.css">
+  
+  <style>
+    /* ========================
+       TEMA CLARO/ESCURO - OTIMIZADO
+    ======================== */
+    :root {
+      --bg-color: #f4f4f4;
+      --text-color: #333;
+      --card-bg: #fff;
+      --primary-color: #007bff;
+      --secondary-color: #6c757d;
+      --success-color: #28a745;
+      --warning-color: #ffc107;
+      --danger-color: #dc3545;
+      --info-color: #17a2b8;
+      --shadow: 0 2px 10px rgba(0,0,0,0.1);
+      --border-radius: 12px;
+      --transition: all 0.3s ease;
+    }
+    
+    [data-theme="dark"] {
+      --bg-color: #1e1e1e;
+      --text-color: #f4f4f4;
+      --card-bg: #2a2a2a;
+      --primary-color: #0d6efd;
+      --secondary-color: #5a6268;
+      --success-color: #218838;
+      --warning-color: #e0a800;
+      --danger-color: #c82333;
+      --info-color: #138496;
+      --shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    /* ========================
+       RESET E BASE RESPONSIVA
+    ======================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      transition: var(--transition);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* ========================
+       MAIN CONTENT RESPONSIVO
+    ======================== */
+    .main-content {
+      flex: 1;
+      padding: 2rem 0;
+    }
+
+    .section {
+      background: var(--card-bg);
+      padding: clamp(1.5rem, 4vw, 2rem);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      color: var(--text-color);
+      font-weight: 700;
+    }
+
+    /* ========================
+       PERFIL INFO
+    ======================== */
+    .profile-info {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .profile-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    [data-theme="dark"] .profile-item {
+      border-bottom-color: #444;
+    }
+
+    .profile-label {
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .profile-value {
+      color: var(--secondary-color);
+    }
+
+    /* ========================
+       BOTÕES
+    ======================== */
+    .btn {
+      padding: clamp(0.875rem, 2.5vw, 1rem) clamp(1rem, 3vw, 1.25rem);
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: clamp(0.875rem, 2.5vw, 1rem);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .btn-secondary {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+
+    .btn-success {
+      background-color: var(--success-color);
+      color: white;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      opacity: 0.9;
+    }
+
+    .actions-section {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #ddd;
+    }
+
+    [data-theme="dark"] .actions-section {
+      border-top-color: #444;
+    }
+
+    .actions-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 480px) {
+      .actions-buttons {
+        flex-direction: column;
+      }
+      
+      .actions-buttons .btn {
+        width: 100%;
+      }
+    }
+
+    /* ========================
+       FOOTER RESPONSIVO
+    ======================== */
+    .footer {
+      background: var(--card-bg);
+      padding: 2rem 0 1rem;
+      text-align: center;
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+      margin-top: auto;
+      width: 100%;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr auto auto;
+        align-items: center;
+        text-align: left;
+      }
+    }
+
+    .footer-brand {
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-brand {
+        text-align: left;
+      }
+    }
+
+    .footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-nav {
+        justify-content: flex-start;
+      }
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-social {
+        justify-content: flex-end;
+      }
+    }
+
+    .footer-nav a,
+    .footer-social a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-weight: 500;
+    }
+
+    .footer-nav a:hover,
+    .footer-social a:hover {
+      text-decoration: underline;
+      color: #0056b3;
+    }
+
+    .footer-copy {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #ddd;
+      color: var(--secondary-color);
+    }
+
+    [data-theme="dark"] .footer-copy {
+      border-top-color: #444;
+    }
+
+    /* ========================
+       PRELOADER OTIMIZADO
+    ======================== */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .preloader-logo {
+      font-size: clamp(1.5rem, 8vw, 2.5rem);
+      font-weight: 700;
+      color: var(--primary-color);
+      animation: pulse 1.2s infinite ease-in-out;
+      margin-bottom: 1rem;
+    }
+
+    .preloader-text {
+      color: var(--secondary-color);
+      font-size: clamp(0.9rem, 3vw, 1rem);
+      text-align: center;
+    }
+
+    @keyframes pulse {
+      0%, 100% { 
+        opacity: 0.7; 
+        transform: scale(1); 
+      }
+      50% { 
+        opacity: 1; 
+        transform: scale(1.05); 
+      }
+    }
+    /* NEVE NATALINA - snow.css */
+.snow-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999;
+}
+.footer-link i {
+  font-size: 1.5rem;
+}
+.snowflake {
+  position: absolute;
+  top: -10px;
+  color: #e0f7fa;
+  font-size: 1em;
+  user-select: none;
+  pointer-events: none;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
+
+.frozen {
+  position: relative;
+  overflow: hidden;
+}
+
+.frozen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(173, 216, 230, 0.3);
+  border: 2px solid #b3e0ff;
+  border-radius: 12px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.frozen::after {
+  content: '❄️';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 1.2rem;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ice-crack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 30% 30%, transparent 10px, rgba(255,255,255,0.8) 11px, transparent 12px),
+    radial-gradient(circle at 70% 70%, transparent 8px, rgba(255,255,255,0.8) 9px, transparent 10px),
+    radial-gradient(circle at 50% 20%, transparent 6px, rgba(255,255,255,0.8) 7px, transparent 8px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.breaking {
+  animation: breakIce 0.5s ease forwards;
+}
+
+@keyframes breakIce {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+  </style>
+</head>
+<body>
+
+
+<!-- Header será inserido automaticamente aqui -->
+
+<main class="main-content container">
+  <section class="section">
+    <h1 class="section-title">Meu Perfil</h1>
+    
+    <div class="profile-info">
+      <div class="profile-item">
+        <span class="profile-label">Nome:</span>
+        <span class="profile-value" id="profileNome">Carregando...</span>
+      </div>
+      
+      <div class="profile-item">
+        <span class="profile-label">Email:</span>
+        <span class="profile-value" id="profileEmail">Carregando...</span>
+      </div>
+      
+      <div class="actions-section">
+        <div class="actions-buttons">
+          <button class="btn btn-primary" onclick="irParaConfiguracoes()">
+             Configurações
+          </button>
+          <button class="btn btn-secondary" onclick="voltar()">
+             Voltar
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-content">
+    <div class="footer-brand">
+      <a href="#" class="logo">Agendamento+</a>
+      <p>Sistema de Agendamento Online</p>
+    </div>
+   <nav class="footer-nav">
+      <a href="dashboard.html" class="nav-link">Dashboard</a>
+      <a href="serviços.html" class="nav-link">Serviços</a>
+      <a href="agendamento.html" class="nav-link">Agendamentos</a>
+      <a href="clientes.html" class="nav-link">Clientes</a>
+      <a href="perfil.html" class="nav-link">Perfil</a>
+    </nav>
+  <div class="footer-social">
+  <a href="https://www.instagram.com/agendamentomais/?next=%2F" target="_blank" class="footer-link" title="Instagram">
+    <i class="fab fa-instagram"></i>
+  </a>
+  <a href="https://wa.me/5561985825956" target="_blank" class="footer-link" title="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+  </div>
+  <div class="footer-copy">
+    <p>&copy; 2025 Agendamento+. Todos os direitos reservados.</p>
+  </div>
+</footer>
+<script src="snow-universal.js"></script>
+<script src="header.js"></script>
+<script>
+// PERFIL DO USUÁRIO
+document.addEventListener('DOMContentLoaded', () => {
+  
+  function carregarPerfil() {
+    fetch('/api/usuario')
+      .then(response => response.json())
+      .then(usuario => {
+        document.getElementById('profileNome').textContent = usuario.nome;
+        document.getElementById('profileEmail').textContent = usuario.email;
+      })
+      .catch(error => {
+        console.error('Erro ao carregar perfil:', error);
+        document.getElementById('profileNome').textContent = 'Erro ao carregar';
+        document.getElementById('profileEmail').textContent = 'Erro ao carregar';
+      });
+  }
+
+  window.irParaConfiguracoes = () => {
+    window.location.href = 'configuracoes.html';
+  };
+
+  window.voltar = () => {
+    window.location.href = 'dashboard.html';
+  };
+
+  // =====================
+  // INICIALIZAÇÃO
+  // =====================
+  
+  
+
+  // Carregar perfil ao iniciar
+  carregarPerfil();
+});
+// NOTIFICAÇÕES POR PÁGINA
+const notificacoesPorPagina = {
+  'perfil.html': {
+    titulo: 'Perfil atualizado!',
+    mensagem: 'Suas informações foram salvas com sucesso.',
+    icone: 'fa-user-check',
+    cor: 'success'
+  },
+  'cadastro.html': {
+    titulo: 'Cadastro realizado!',
+    mensagem: 'Novo registro adicionado ao sistema.',
+    icone: 'fa-user-plus',
+    cor: 'success'
+  },
+  'servico.html': {
+    titulo: 'Serviço configurado!',
+    mensagem: 'As alterações foram aplicadas com sucesso.',
+    icone: 'fa-cog',
+    cor: 'info'
+  },
+  'agendamento.html': {
+    titulo: 'Agendamento confirmado!',
+    mensagem: 'O agendamento foi registrado no sistema.',
+    icone: 'fa-calendar-check',
+    cor: 'success'
+  },
+  'configuracoes.html': {
+    titulo: 'Configurações salvas!',
+    mensagem: 'Suas preferências foram atualizadas.',
+    icone: 'fa-save',
+    cor: 'info'
+  }
+};
+
+// CONFIGURAÇÃO DAS CORES
+const coresNotificacao = {
+  success: '#28a745',
+  info: '#17a2b8',
+  warning: '#ffc107',
+  error: '#dc3545',
+  primary: '#007bff'
+};
+
+// FUNÇÃO PRINCIPAL - MOSTRAR NOTIFICAÇÃO
+function mostrarNotificacaoPagina() {
+  // Obtém o nome do arquivo atual
+  const paginaAtual = window.location.pathname.split('/').pop() || 
+                      document.querySelector('title')?.textContent?.toLowerCase() + '.html' || 
+                      'index.html';
+  
+  // Encontra a configuração da página atual
+  let config = null;
+  
+  // Tenta encontrar por nome exato do arquivo
+  if (notificacoesPorPagina[paginaAtual]) {
+    config = notificacoesPorPagina[paginaAtual];
+  } else {
+    // Tenta encontrar por parte do nome
+    for (const pagina in notificacoesPorPagina) {
+      if (paginaAtual.includes(pagina.replace('.html', ''))) {
+        config = notificacoesPorPagina[pagina];
+        break;
+      }
+    }
+  }
+  
+  // Se não encontrou configuração, usa padrão
+  if (!config) {
+    config = {
+      titulo: 'Ação realizada!',
+      mensagem: 'Operação concluída com sucesso.',
+      icone: 'fa-check-circle',
+      cor: 'success'
+    };
+  }
+  
+  // Remove notificações antigas
+  const notificacoesAntigas = document.querySelectorAll('.notificacao-pagina');
+  notificacoesAntigas.forEach(notificacao => {
+    notificacao.classList.add('notificacao-saindo');
+    setTimeout(() => notificacao.remove(), 300);
+  });
+  
+  // Cria a notificação
+  criarNotificacao(config);
+}
+
+// FUNÇÃO PARA CRIAR A NOTIFICAÇÃO
+function criarNotificacao(config) {
+  const notification = document.createElement('div');
+  notification.className = 'notificacao-pagina';
+  notification.setAttribute('role', 'alert');
+  notification.setAttribute('aria-live', 'assertive');
+  
+  notification.innerHTML = `
+    <div class="notificacao-conteudo" style="
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${coresNotificacao[config.cor] || coresNotificacao.success};
+      color: white;
+      padding: 16px 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: entradaNotificacao 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      max-width: 380px;
+      min-width: 300px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      border-left: 5px solid rgba(255,255,255,0.3);
+    ">
+      <div class="notificacao-icone" style="
+        font-size: 1.4rem;
+        background: rgba(255,255,255,0.2);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      ">
+        <i class="fas ${config.icone}"></i>
+      </div>
+      
+      <div class="notificacao-texto" style="flex: 1;">
+        <div class="notificacao-titulo" style="
+          font-weight: 700;
+          font-size: 1rem;
+          margin-bottom: 4px;
+        ">
+          ${config.titulo}
+        </div>
+        <div class="notificacao-mensagem" style="
+          font-size: 0.875rem;
+          opacity: 0.9;
+          line-height: 1.4;
+        ">
+          ${config.mensagem}
+        </div>
+      </div>
+      
+      <button class="notificacao-fechar" onclick="this.closest('.notificacao-pagina').remove()" 
+              style="
+                background: none;
+                border: none;
+                color: white;
+                cursor: pointer;
+                font-size: 1.4rem;
+                opacity: 0.7;
+                padding: 0 8px;
+                line-height: 1;
+                transition: opacity 0.2s;
+                align-self: flex-start;
+              "
+              aria-label="Fechar notificação">
+        &times;
+      </button>
+    </div>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Adiciona efeito hover no botão de fechar
+  const btnFechar = notification.querySelector('.notificacao-fechar');
+  btnFechar.addEventListener('mouseenter', () => {
+    btnFechar.style.opacity = '1';
+  });
+  btnFechar.addEventListener('mouseleave', () => {
+    btnFechar.style.opacity = '0.7';
+  });
+  
+  // Remove automaticamente após 5 segundos
+  setTimeout(() => {
+    if (notification && notification.parentNode) {
+      notification.querySelector('.notificacao-conteudo').style.animation = 'saidaNotificacao 0.3s ease forwards';
+      setTimeout(() => {
+        if (notification && notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 300);
+    }
+  }, 5000);
+}
+
+// FUNÇÃO PARA ADICIONAR ESTILOS
+function adicionarEstilosNotificacao() {
+  if (document.querySelector('#estilos-notificacao')) return;
+  
+  const style = document.createElement('style');
+  style.id = 'estilos-notificacao';
+  
+  style.textContent = `
+    /* Animações */
+    @keyframes entradaNotificacao {
+      from {
+        transform: translateX(100%) translateY(-20px) scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes saidaNotificacao {
+      from {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100%) translateY(-20px) scale(0.9);
+        opacity: 0;
+      }
+    }
+    
+    /* Efeitos de hover */
+    .notificacao-pagina .notificacao-conteudo:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .notificacao-pagina .notificacao-conteudo {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        min-width: auto;
+        margin: 0 auto;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .notificacao-pagina .notificacao-conteudo {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+        gap: 15px;
+      }
+      
+      .notificacao-pagina .notificacao-fechar {
+        align-self: center !important;
+        margin-top: 10px;
+      }
+    }
+    
+    /* Suporte a tema escuro */
+    [data-theme="dark"] .notificacao-pagina .notificacao-conteudo {
+      background: var(--success-color) !important;
+    }
+    
+    /* Acessibilidade - foco */
+    .notificacao-fechar:focus {
+      outline: 2px solid white;
+      outline-offset: 2px;
+    }
+    
+    /* Classe para remoção suave */
+    .notificacao-saindo .notificacao-conteudo {
+      animation: saidaNotificacao 0.3s ease forwards !important;
+    }
+  `;
+  
+  document.head.appendChild(style);
+}
+
+// FUNÇÃO PARA MOSTRAR NOTIFICAÇÃO PERSONALIZADA
+function notificarAcao(titulo, mensagem, tipo = 'success', icone = null) {
+  const iconesPadrao = {
+    success: 'fa-check-circle',
+    info: 'fa-info-circle',
+    warning: 'fa-exclamation-triangle',
+    error: 'fa-times-circle',
+    primary: 'fa-bell'
+  };
+  
+  const config = {
+    titulo: titulo,
+    mensagem: mensagem,
+    icone: icone || iconesPadrao[tipo] || 'fa-check-circle',
+    cor: tipo
+  };
+  
+  criarNotificacao(config);
+}
+
+// INICIALIZAÇÃO - MOSTRA NOTIFICAÇÃO AO CARREGAR
+document.addEventListener('DOMContentLoaded', function() {
+  // Adiciona estilos
+  adicionarEstilosNotificacao();
+  
+  // Aguarda um pouco para mostrar a notificação
+  setTimeout(function() {
+    mostrarNotificacaoPagina();
+  }, 1000); // 1 segundo após carregar
+});
+
+// FUNÇÕES PARA USO EM FORMULÁRIOS
+function configurarFormularios() {
+  // Adiciona eventos aos formulários
+  const forms = document.querySelectorAll('form');
+  
+  forms.forEach(form => {
+    form.addEventListener('submit', function(e) {
+      // Se o formulário tiver validação, você pode adicionar aqui
+      
+      // Após envio bem-sucedido (em um cenário real, isso seria no callback do submit)
+      setTimeout(() => {
+        const pagina = window.location.pathname.split('/').pop();
+        
+        switch(pagina) {
+          case 'perfil.html':
+            notificarAcao('Perfil Atualizado!', 'Suas alterações foram salvas com sucesso.', 'success');
+            break;
+          case 'cadastro.html':
+            notificarAcao('Cadastro Realizado!', 'Novo registro adicionado ao banco de dados.', 'success');
+            break;
+          case 'servico.html':
+            notificarAcao('Serviço Configurado!', 'Configurações do serviço foram aplicadas.', 'info');
+            break;
+          case 'agendamento.html':
+            notificarAcao('Agendamento Confirmado!', 'O agendamento foi registrado com sucesso.', 'success');
+            break;
+          case 'configuracoes.html':
+            notificarAcao('Configurações Salvas!', 'Suas preferências foram atualizadas.', 'info');
+            break;
+          default:
+            notificarAcao('Ação Concluída!', 'Operação realizada com sucesso.', 'success');
+        }
+      }, 800);
+    });
+  });
+}
+
+// Para usar manualmente em qualquer lugar da página
+// Exemplo: <button onclick="notificarAcao('Sucesso!', 'Operação realizada.', 'success')">Testar</button>
+
+// Para usar em chamadas AJAX
+function notificarSucessoAJAX(mensagem) {
+  const pagina = window.location.pathname.split('/').pop();
+  let titulo = 'Sucesso!';
+  
+  switch(pagina) {
+    case 'perfil.html': titulo = 'Perfil Atualizado!'; break;
+    case 'cadastro.html': titulo = 'Cadastro Realizado!'; break;
+    case 'servico.html': titulo = 'Serviço Configurado!'; break;
+    case 'agendamento.html': titulo = 'Agendamento Confirmado!'; break;
+    case 'configuracoes.html': titulo = 'Configurações Salvas!'; break;
+  }
+  
+  notificarAcao(titulo, mensagem, 'success');
+}
+
+// Adiciona configuração de formulários ao carregar
+document.addEventListener('DOMContentLoaded', configurarFormularios);
+
+// Variável global para acesso fácil
+window.notificar = notificarAcao;
+</script>
+</body>
+</html>

@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Dashboard - Agendamento+</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta name="theme-color" content="#007bff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#007bff">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="msapplication-navbutton-color" content="#007bff">
+  <script src="header.js"></script>
+  <link rel="stylesheet" href="header.css">
+  
+  <style>
+    /* ==============================================
+       CSS RESPONSIVO PARA TODOS OS DISPOSITIVOS
+    ============================================== */
+    
+    /* ========================
+       VARIÁVEIS RESPONSIVAS
+    ======================== */
+    :root {
+      /* Cores do sistema */
+      --bg-color: #f4f4f4;
+      --text-color: #333;
+      --card-bg: #fff;
+      --primary-color: #007bff;
+      --secondary-color: #6c757d;
+      --success-color: #28a745;
+      --warning-color: #ffc107;
+      --danger-color: #dc3545;
+      --info-color: #17a2b8;
+      
+      /* Espaçamentos responsivos */
+      --space-xs: clamp(0.25rem, 1vw, 0.5rem);
+      --space-sm: clamp(0.5rem, 2vw, 1rem);
+      --space-md: clamp(1rem, 4vw, 1.5rem);
+      --space-lg: clamp(1.5rem, 6vw, 2rem);
+      --space-xl: clamp(2rem, 8vw, 3rem);
+      
+      /* Tipografia responsiva */
+      --font-size-xs: clamp(0.75rem, 3vw, 0.875rem);
+      --font-size-sm: clamp(0.875rem, 3.5vw, 1rem);
+      --font-size-md: clamp(1rem, 4vw, 1.125rem);
+      --font-size-lg: clamp(1.25rem, 5vw, 1.5rem);
+      --font-size-xl: clamp(1.5rem, 6vw, 2rem);
+      --font-size-xxl: clamp(2rem, 8vw, 2.5rem);
+      
+      /* Outras propriedades */
+      --border-radius: clamp(8px, 2vw, 12px);
+      --shadow: 0 2px 10px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    /* ========================
+       TEMA ESCURO
+    ======================== */
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #f0f0f0;
+      --card-bg: #1e1e1e;
+      --shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    
+    /* ========================
+       RESET E BASE
+    ======================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+      -moz-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* ========================
+       CONTAINER FLUIDO
+    ======================== */
+    .container {
+      width: 100%;
+      padding: 0 var(--space-sm);
+      margin: 0 auto;
+    }
+
+    /* Dispositivos pequenos (mobiles) */
+    @media (min-width: 375px) {
+      .container {
+        padding: 0 var(--space-md);
+      }
+    }
+
+    /* Tablets */
+    @media (min-width: 768px) {
+      .container {
+        max-width: 720px;
+        padding: 0 var(--space-lg);
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 992px) {
+      .container {
+        max-width: 960px;
+      }
+    }
+
+    /* Desktop grande */
+    @media (min-width: 1200px) {
+      .container {
+        max-width: 1140px;
+      }
+    }
+
+    /* Telas extra grandes */
+    @media (min-width: 1400px) {
+      .container {
+        max-width: 1320px;
+      }
+    }
+
+    /* ========================
+       MAIN CONTENT
+    ======================== */
+    .main-content {
+      flex: 1;
+      padding: var(--space-lg) 0;
+      width: 100%;
+    }
+
+    .section {
+      background: var(--card-bg);
+      padding: var(--space-md);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: var(--space-md);
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: var(--space-lg);
+      font-size: var(--font-size-xl);
+      color: var(--text-color);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* ========================
+       CARDS DO DASHBOARD
+    ======================== */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    /* Para telas muito pequenas (menor que 320px) */
+    @media (max-width: 320px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-sm);
+      }
+    }
+
+    /* Para 2 colunas em tablets */
+    @media (min-width: 640px) and (max-width: 1023px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Para 3 colunas em desktop */
+    @media (min-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      padding: var(--space-md);
+      border-radius: var(--border-radius);
+      text-align: center;
+      box-shadow: var(--shadow);
+      border-left: 5px solid;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .stat-card:active {
+      transform: translateY(-2px);
+    }
+
+    .stat-card.primary { border-left-color: var(--primary-color); }
+    .stat-card.success { border-left-color: var(--success-color); }
+    .stat-card.warning { border-left-color: var(--warning-color); }
+    .stat-card.danger { border-left-color: var(--danger-color); }
+    .stat-card.info { border-left-color: var(--info-color); }
+
+    .stat-value {
+      font-size: var(--font-size-xxl);
+      font-weight: 700;
+      margin: 0;
+      color: var(--text-color);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: var(--font-size-sm);
+      color: var(--secondary-color);
+      margin-top: var(--space-xs);
+      line-height: 1.3;
+    }
+
+    /* ========================
+       AÇÕES RÁPIDAS RESPONSIVAS
+    ======================== */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+      gap: var(--space-sm);
+      margin-top: var(--space-lg);
+    }
+
+    @media (max-width: 480px) {
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (min-width: 481px) and (max-width: 767px) {
+      .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .quick-actions {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .action-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 50px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .action-btn:hover {
+      background: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .action-btn:active {
+      transform: translateY(0);
+    }
+
+    /* ========================
+       GRÁFICO SUPER RESPONSIVO
+    ======================== */
+    .chart-container {
+      background: var(--card-bg);
+      padding: var(--space-md);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-top: var(--space-lg);
+    }
+
+    .chart-title {
+      text-align: center;
+      margin-bottom: var(--space-md);
+      font-size: var(--font-size-lg);
+      color: var(--text-color);
+      font-weight: 600;
+    }
+
+    .chart {
+      width: 100%;
+      min-height: 250px;
+      position: relative;
+    }
+
+    @media (max-width: 480px) {
+      .chart {
+        min-height: 200px;
+      }
+    }
+
+    .chart-bar {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-sm);
+    }
+
+    @media (min-width: 640px) {
+      .chart-bar {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-md);
+      }
+    }
+
+    .chart-label {
+      min-width: 100px;
+      font-weight: 600;
+      color: var(--text-color);
+      font-size: var(--font-size-sm);
+    }
+
+    @media (max-width: 480px) {
+      .chart-label {
+        min-width: 80px;
+        font-size: var(--font-size-xs);
+      }
+    }
+
+    .chart-bar-container {
+      flex: 1;
+      background: #e9ecef;
+      border-radius: 20px;
+      overflow: hidden;
+      height: 30px;
+      width: 100%;
+    }
+
+    [data-theme="dark"] .chart-bar-container {
+      background: #444;
+    }
+
+    .chart-bar-fill {
+      height: 100%;
+      border-radius: 20px;
+      transition: width 1s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 var(--space-sm);
+      color: white;
+      font-weight: 600;
+      font-size: var(--font-size-xs);
+      min-width: 40px;
+    }
+
+    /* ========================
+       TABELA HIPER RESPONSIVA
+    ======================== */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: var(--space-md);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      -webkit-overflow-scrolling: touch; /* Scroll suave no iOS */
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+      font-size: var(--font-size-sm);
+    }
+
+    .table th,
+    .table td {
+      padding: var(--space-sm);
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      white-space: nowrap;
+    }
+
+    [data-theme="dark"] .table th,
+    [data-theme="dark"] .table td {
+      border-bottom-color: #444;
+    }
+
+    .table th {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      font-size: var(--font-size-xs);
+      padding: var(--space-xs) var(--space-sm);
+    }
+
+    .table-striped tbody tr:nth-child(even) {
+      background-color: rgba(0,0,0,0.03);
+    }
+
+    [data-theme="dark"] .table-striped tbody tr:nth-child(even) {
+      background-color: rgba(255,255,255,0.05);
+    }
+
+    .table tbody tr:hover {
+      background-color: rgba(0,123,255,0.08);
+    }
+
+    /* Estilos para tabela em mobile */
+    @media (max-width: 767px) {
+      .table-responsive {
+        border: 1px solid #ddd;
+      }
+      
+      .table {
+        min-width: 100%;
+      }
+      
+      .table th,
+      .table td {
+        padding: var(--space-xs);
+        font-size: var(--font-size-xs);
+      }
+    }
+
+    /* ========================
+       FOOTER RESPONSIVO
+    ======================== */
+    .footer {
+      background: var(--card-bg);
+      padding: var(--space-lg) 0 var(--space-md);
+      text-align: center;
+      font-size: var(--font-size-sm);
+      margin-top: auto;
+      width: 100%;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    @media (min-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr auto auto;
+        align-items: center;
+        text-align: left;
+      }
+    }
+
+    .footer-brand {
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-brand {
+        text-align: left;
+      }
+    }
+
+    .footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-nav {
+        justify-content: flex-start;
+      }
+    }
+
+    .footer-social {
+      display: flex;
+      gap: var(--space-sm);
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-social {
+        justify-content: flex-end;
+      }
+    }
+
+    .footer-nav a,
+    .footer-social a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-weight: 500;
+      font-size: var(--font-size-sm);
+    }
+
+    .footer-nav a:hover,
+    .footer-social a:hover {
+      text-decoration: underline;
+      color: #0056b3;
+    }
+
+    .footer-copy {
+      margin-top: var(--space-md);
+      padding-top: var(--space-md);
+      border-top: 1px solid #ddd;
+      color: var(--secondary-color);
+      font-size: var(--font-size-xs);
+    }
+
+    [data-theme="dark"] .footer-copy {
+      border-top-color: #444;
+    }
+
+    /* Ícones do footer */
+    .footer-link i {
+      font-size: clamp(1.25rem, 5vw, 1.5rem);
+    }
+
+    .footer-social a {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: calc(var(--border-radius) / 2);
+      transition: all 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      background: rgba(0, 123, 255, 0.1);
+      text-decoration: none;
+    }
+
+    /* ========================
+       PRELOADER RESPONSIVO
+    ======================== */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .preloader-logo {
+      font-size: var(--font-size-xxl);
+      font-weight: 700;
+      color: var(--primary-color);
+      animation: pulse 1.2s infinite ease-in-out;
+      margin-bottom: var(--space-sm);
+      text-align: center;
+    }
+
+    .preloader-text {
+      color: var(--secondary-color);
+      font-size: var(--font-size-sm);
+      text-align: center;
+      max-width: 90%;
+    }
+
+    @keyframes pulse {
+      0%, 100% { 
+        opacity: 0.7; 
+        transform: scale(1); 
+      }
+      50% { 
+        opacity: 1; 
+        transform: scale(1.05); 
+      }
+    }
+
+    /* ========================
+       ASSISTENTE AG RESPONSIVO
+    ======================== */
+    .assistente-ag {
+      position: fixed;
+      bottom: var(--space-md);
+      right: var(--space-md);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    /* Para telas pequenas, ajusta a posição */
+    @media (max-width: 480px) {
+      .assistente-ag {
+        bottom: var(--space-sm);
+        right: var(--space-sm);
+      }
+    }
+
+    #agAvatarContainer {
+      width: clamp(80px, 20vw, 120px);
+      height: clamp(80px, 20vw, 120px);
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    #agAvatarContainer:hover {
+      transform: scale(1.1);
+    }
+
+    #agAvatarContainer:active {
+      transform: scale(0.95);
+    }
+
+    .ag-avatar {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ag-3d-avatar {
+      width: 80%;
+      height: 80%;
+      position: relative;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .ag-head {
+      width: 60%;
+      height: 60%;
+      background: linear-gradient(135deg, var(--primary-color), #0056b3);
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      left: 20%;
+      box-shadow: 
+        0 4px 15px rgba(0,0,0,0.15),
+        inset 0 -4px 10px rgba(0,0,0,0.1),
+        inset 0 4px 10px rgba(255,255,255,0.3);
+      border: 2px solid var(--primary-color);
+    }
+
+    @media (min-width: 768px) {
+      .ag-head {
+        width: 80%;
+        height: 80%;
+        left: 10%;
+      }
+    }
+
+    .ag-chat {
+      position: absolute;
+      bottom: 100%;
+      right: 0;
+      width: clamp(280px, 90vw, 350px);
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      margin-bottom: var(--space-sm);
+      max-height: 80vh;
+    }
+
+    .ag-chat.active {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .ag-chat-header {
+      background: var(--primary-color);
+      color: white;
+      padding: var(--space-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ag-chat-title {
+      font-weight: 600;
+      font-size: var(--font-size-sm);
+    }
+
+    .ag-chat-close {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: var(--font-size-lg);
+      padding: var(--space-xs);
+      line-height: 1;
+    }
+
+    .ag-chat-messages {
+      padding: var(--space-sm);
+      max-height: 40vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .ag-message {
+      padding: var(--space-sm);
+      border-radius: 18px;
+      max-width: 85%;
+      font-size: var(--font-size-sm);
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+
+    .ag-message.ag {
+      background: var(--primary-color);
+      color: white;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    .ag-message.user {
+      background: var(--card-bg);
+      border: 1px solid #ddd;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+
+    .ag-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-xs);
+      padding: 0 var(--space-sm) var(--space-sm);
+    }
+
+    @media (min-width: 480px) {
+      .ag-actions {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .ag-action-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      padding: var(--space-sm);
+      cursor: pointer;
+      font-size: var(--font-size-xs);
+      text-align: left;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ag-action-btn:hover {
+      background: #0056b3;
+      transform: translateX(5px);
+    }
+
+    /* ========================
+       NOTIFICAÇÕES RESPONSIVAS
+    ======================== */
+    .notification {
+      position: fixed;
+      top: var(--space-md);
+      right: var(--space-md);
+      left: var(--space-md);
+      padding: var(--space-sm);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      transform: translateX(120%);
+      transition: transform 0.3s ease;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    @media (min-width: 768px) {
+      .notification {
+        left: auto;
+        max-width: 400px;
+      }
+    }
+
+    /* ========================
+       ESTADOS DE CARREGAMENTO
+    ======================== */
+    .loading-shimmer {
+      background: linear-gradient(90deg, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.3) 50%, 
+        rgba(255,255,255,0) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: var(--border-radius);
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .loading-card {
+      min-height: 120px;
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+    }
+
+    /* ========================
+       ORIENTAÇÃO LANDSCAPE
+    ======================== */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .main-content {
+        padding: var(--space-sm) 0;
+      }
+      
+      .section {
+        padding: var(--space-sm);
+        margin-bottom: var(--space-sm);
+      }
+      
+      .dashboard-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--space-sm);
+        margin-bottom: var(--space-sm);
+      }
+      
+      .stat-card {
+        min-height: 100px;
+        padding: var(--space-sm);
+      }
+      
+      .ag-chat {
+        max-height: 60vh;
+      }
+      
+      .ag-chat-messages {
+        max-height: 30vh;
+      }
+    }
+
+    /* ========================
+       ALTA DENSIDADE DE PIXELS
+    ======================== */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      .stat-card,
+      .action-btn,
+      .ag-action-btn {
+        border-width: 0.5px;
+      }
+    }
+
+    /* ========================
+       ACESSIBILIDADE
+    ======================== */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Foco visível para teclado */
+    .stat-card:focus-visible,
+    .action-btn:focus-visible,
+    .ag-action-btn:focus-visible,
+    #agAvatarContainer:focus-visible {
+      outline: 3px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
+    /* ========================
+       ESTADOS DE TOUCH
+    ======================== */
+    @media (hover: none) {
+      .stat-card:hover {
+        transform: none;
+      }
+      
+      .action-btn:hover {
+        transform: none;
+      }
+      
+      .ag-action-btn:hover {
+        transform: none;
+      }
+      
+      #agAvatarContainer:hover {
+        transform: none;
+      }
+      
+      .stat-card:active,
+      .action-btn:active,
+      .ag-action-btn:active,
+      #agAvatarContainer:active {
+        transform: scale(0.98);
+        opacity: 0.9;
+      }
+    }
+
+    /* ========================
+       SUPPORT PARA IOS SAFARI
+    ======================== */
+    /* Remove tap highlight no iOS */
+    .stat-card,
+    .action-btn,
+    .ag-action-btn,
+    #agAvatarContainer {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Corrige input zoom no iOS */
+    @media screen and (max-width: 767px) {
+      input,
+      select,
+      textarea {
+        font-size: 16px; /* Previne zoom automático no iOS */
+      }
+    }
+
+    /* ========================
+       SUPPORT PARA FIREFOX
+    ======================== */
+    @supports (-moz-appearance:none) {
+      .table-responsive {
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary-color) transparent;
+      }
+    }
+
+    /* ========================
+       SUPPORT PARA WEBKIT
+    ======================== */
+    .table-responsive::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 4px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+      background: #0056b3;
+    }
+
+    /* ========================
+       MELHORIAS ESPECÍFICAS
+    ======================== */
+    
+    /* Impede quebra de layout em resoluções muito pequenas */
+    @media (max-width: 280px) {
+      .container {
+        padding: 0 var(--space-xs);
+      }
+      
+      .section {
+        padding: var(--space-xs);
+      }
+      
+      .stat-value {
+        font-size: var(--font-size-xl);
+      }
+      
+      .action-btn {
+        font-size: var(--font-size-xs);
+        padding: var(--space-xs) var(--space-sm);
+      }
+    }
+
+    /* Otimização para tablets grandes (iPad Pro) */
+    @media (min-width: 1024px) and (max-height: 1366px) and (orientation: portrait) {
+      .main-content {
+        padding: var(--space-xl) 0;
+      }
+      
+      .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Suporte para modo de economia de bateria */
+    @media (prefers-contrast: high) {
+      .stat-card {
+        border: 2px solid;
+      }
+      
+      .action-btn {
+        border: 2px solid var(--primary-color);
+      }
+    }
+
+    /* Suporte para modo escuro automático */
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg-color: #121212;
+        --text-color: #f0f0f0;
+        --card-bg: #1e1e1e;
+        --shadow: 0 2px 10px rgba(0,0,0,0.3);
+      }
+    }
+
+    /* Suporte para modo claro automático */
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        --bg-color: #f4f4f4;
+        --text-color: #333;
+        --card-bg: #fff;
+        --shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<main class="main-content container" role="main">
+  <section class="section">
+    <h1 class="section-title">Dashboard Geral</h1>
+    
+    <div class="dashboard-grid">
+      <div class="stat-card primary" role="button" tabindex="0" onclick="window.location.href='#'">
+        <h3 class="stat-value" id="agendamentosHoje">0</h3>
+        <p class="stat-label">Agendamentos Hoje</p>
+      </div>
+      <div class="stat-card success" role="button" tabindex="0" onclick="window.location.href='#'">
+        <h3 class="stat-value" id="agendamentosMes">0</h3>
+        <p class="stat-label">Agendamentos Este Mês</p>
+      </div>
+      <div class="stat-card warning" role="button" tabindex="0" onclick="window.location.href='#'">
+        <h3 class="stat-value" id="servicosDisponiveis">0</h3>
+        <p class="stat-label">Serviços Disponíveis</p>
+      </div>
+      <div class="stat-card danger" role="button" tabindex="0" onclick="window.location.href='#'">
+        <h3 class="stat-value" id="totalClientes">0</h3>
+        <p class="stat-label">Total de Clientes</p>
+      </div>
+      <div class="stat-card info" role="button" tabindex="0" onclick="window.location.href='#'">
+        <h3 class="stat-value" id="agendamentosPendentes">0</h3>
+        <p class="stat-label">Agendamentos Pendentes</p>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <a href="agendamento.html" class="action-btn">
+        <i class="fas fa-calendar-plus"></i>
+        Novo Agendamento
+      </a>
+      <a href="serviços.html" class="action-btn">
+        <i class="fas fa-concierge-bell"></i>
+        Gerenciar Serviços
+      </a>
+      <a href="clientes.html" class="action-btn">
+        <i class="fas fa-users"></i>
+        Ver Clientes
+      </a>
+      <a href="configuracoes.html" class="action-btn">
+        <i class="fas fa-cog"></i>
+        Configurações
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3 class="chart-title">Status dos Agendamentos</h3>
+    <div class="chart" id="graficoStatus">
+      <div class="loading-shimmer loading-card"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Agendamentos Recentes</h2>
+    <div class="table-responsive">
+      <table class="table table-striped" id="tabelaAgendamentos" aria-live="polite">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Serviço</th>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaAgendamentosBody">
+          <tr><td colspan="5" style="text-align: center;">Carregando agendamentos...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<!-- Assistente AG -->
+<div class="assistente-ag">
+  <div class="ag-chat" id="agChat" role="dialog" aria-modal="false" aria-labelledby="agChatTitle">
+    <div class="ag-chat-header">
+      <div class="ag-chat-title" id="agChatTitle">Assistente AG</div>
+      <button class="ag-chat-close" id="agClose" aria-label="Fechar Chat">✕</button>
+    </div>
+    <div class="ag-chat-messages" id="agMessages" role="log" aria-live="polite">
+      <!-- Mensagens serão adicionadas dinamicamente -->
+    </div>
+    
+    <div class="ag-actions">
+      <button class="ag-action-btn" data-action="tutorial">
+        <i class="fas fa-graduation-cap"></i>
+        Tutorial
+      </button>
+      <button class="ag-action-btn" data-action="agendamento">
+        <i class="fas fa-calendar-plus"></i>
+        Agendamento
+      </button>
+      <button class="ag-action-btn" data-action="servico">
+        <i class="fas fa-concierge-bell"></i>
+        Serviços
+      </button>
+      <button class="ag-action-btn" data-action="cliente">
+        <i class="fas fa-users"></i>
+        Clientes
+      </button>
+      <button class="ag-action-btn" data-action="dashboard">
+        <i class="fas fa-tachometer-alt"></i>
+        Dashboard
+      </button>
+      <button class="ag-action-btn" data-action="suporte">
+        <i class="fas fa-headset"></i>
+        Suporte
+      </button>
+    </div>
+  </div>
+  
+  <div class="ag-avatar-container" id="agAvatarContainer" role="button" tabindex="0" aria-label="Abrir Assistente Virtual AG">
+    <div class="ag-avatar" id="agAvatar">
+      <div class="ag-3d-avatar">
+        <div class="ag-head">
+          <div class="ag-face">
+            <div class="ag-eyes">
+              <div class="ag-eye left-eye"></div>
+              <div class="ag-eye right-eye"></div>
+            </div>
+            <div class="ag-smile"></div>
+          </div>
+        </div>
+        <div class="ag-body"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-content">
+    <div class="footer-brand">
+      <a href="#" class="logo">Agendamento+</a>
+      <p>Sistema de Agendamento Online</p>
+    </div>
+    <nav class="footer-nav" aria-label="Navegação do Rodapé">
+      <a href="dashboard.html" class="nav-link">Dashboard</a>
+      <a href="serviços.html" class="nav-link">Serviços</a>
+      <a href="agendamento.html" class="nav-link">Agendamentos</a>
+      <a href="clientes.html" class="nav-link">Clientes</a>
+      <a href="perfil.html" class="nav-link">Perfil</a>
+    </nav>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/agendamentomais/?next=%2F" target="_blank" class="footer-link" title="Instagram">
+        <i class="fab fa-instagram"></i>
+        <span class="sr-only">Instagram</span>
+      </a>
+      <a href="https://wa.me/5561985825956" target="_blank" class="footer-link" title="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="sr-only">WhatsApp</span>
+      </a>
+    </div>
+  </div>
+  <div class="footer-copy">
+    <p>&copy; 2025 Agendamento+. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script>
+// =====================
+// DASHBOARD RESPONSIVO - TEMPO REAL (COMPLETO E CORRIGIDO)
+// =====================
+document.addEventListener('DOMContentLoaded', () => {
+  
+  // Estado global
+  let dashboardData = {
+    estatisticas: null,
+    agendamentos: [],
+    ultimaAtualizacao: null
+  };
+  
+  // =====================
+  // FUNÇÕES DE UTILIDADE
+  // =====================
+  
+  function formatarData(data) {
+    if (!data) return '';
+    try {
+      const [ano, mes, dia] = data.split('-');
+      return `${dia}/${mes}/${ano}`;
+    } catch {
+      return data;
+    }
+  }
+  
+  function formatarHora(data) {
+    if (!dashboardData.ultimaAtualizacao) return '';
+    try {
+      const agora = new Date();
+      const ultima = new Date(dashboardData.ultimaAtualizacao);
+      const diff = Math.floor((agora - ultima) / 1000);
+      
+      if (diff < 60) return `Agora`;
+      if (diff < 3600) return `${Math.floor(diff / 60)} min`;
+      if (diff < 86400) return `${Math.floor(diff / 3600)} h`;
+      return `${Math.floor(diff / 86400)} dias`;
+    } catch {
+      return '';
+    }
+  }
+  
+  // =====================
+  // API FUNCTIONS (CORRIGIDA)
+  // =====================
+  
+  async function fetchAPI(url) {
+    try {
+      console.log(`🔍 Fazendo requisição para: ${url}`);
+      const response = await fetch(url);
+      
+      if (response.status === 401) {
+        console.log('⚠️ Não autorizado, redirecionando para login...');
+        window.location.href = '/';
+        return null;
+      }
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log(`✅ Resposta recebida de ${url}:`, data);
+      return data;
+    } catch (error) {
+      console.error(`❌ Erro ao buscar ${url}:`, error);
+      throw error;
+    }
+  }
+  
+  async function carregarEstatisticas() {
+    try {
+      console.log('📊 Carregando estatísticas...');
+      const data = await fetchAPI('/api/dashboard/completo');
+      
+      if (data && data.sucesso) {
+        console.log('✅ Estatísticas carregadas:', data.estatisticas);
+        return data.estatisticas || {};
+      } else {
+        console.error('❌ Erro na resposta das estatísticas:', data);
+        return {};
+      }
+    } catch (error) {
+      console.error('❌ Erro ao carregar estatísticas:', error);
+      return {};
+    }
+  }
+  
+  async function carregarAgendamentosRecentes() {
+    try {
+      console.log('📅 Carregando agendamentos recentes...');
+      const data = await fetchAPI('/api/agendamentos');
+      
+      if (data) {
+        // Pegar apenas os últimos 10 agendamentos
+        const recentes = Array.isArray(data) ? data.slice(0, 10) : [];
+        console.log(`✅ ${recentes.length} agendamentos carregados`);
+        return recentes;
+      } else {
+        console.error('❌ Erro na resposta dos agendamentos:', data);
+        return [];
+      }
+    } catch (error) {
+      console.error('❌ Erro ao carregar agendamentos:', error);
+      return [];
+    }
+  }
+  
+  async function carregarDashboardCompleto() {
+    console.log('🚀 Iniciando carregamento do dashboard...');
+    
+    try {
+      // Mostrar estado de carregamento
+      mostrarEstadoCarregamento();
+      
+      const [estatisticas, agendamentos] = await Promise.all([
+        carregarEstatisticas(),
+        carregarAgendamentosRecentes()
+      ]);
+      
+      console.log('📦 Dados carregados com sucesso!');
+      console.log('📊 Estatísticas:', estatisticas);
+      console.log('📅 Agendamentos:', agendamentos.length);
+      
+      // Atualizar estado
+      dashboardData.estatisticas = estatisticas;
+      dashboardData.agendamentos = agendamentos;
+      dashboardData.ultimaAtualizacao = estatisticas.timestamp || new Date().toISOString();
+      
+      // Atualizar UI
+      atualizarEstatisticas(estatisticas);
+      atualizarTabelaAgendamentos(agendamentos);
+      atualizarGraficoStatus(estatisticas);
+      atualizarIndicadorAtualizacao();
+      
+      // Remover estado de carregamento
+      removerEstadoCarregamento();
+      
+      // Notificação (apenas primeira vez)
+      if (!window.dashboardCarregado) {
+        showNotification('Dashboard carregado com sucesso!', 'success');
+        window.dashboardCarregado = true;
+      }
+      
+      console.log('✅ Dashboard carregado completamente!');
+      
+    } catch (error) {
+      console.error('❌ Erro ao carregar dashboard:', error);
+      mostrarEstadoErro();
+    }
+  }
+  
+  // =====================
+  // UI FUNCTIONS
+  // =====================
+  
+  function mostrarEstadoCarregamento() {
+    // Adiciona shimmer effect nos cards
+    const cards = document.querySelectorAll('.stat-card');
+    cards.forEach(card => {
+      card.classList.add('loading-shimmer');
+    });
+  }
+  
+  function removerEstadoCarregamento() {
+    const cards = document.querySelectorAll('.stat-card');
+    cards.forEach(card => {
+      card.classList.remove('loading-shimmer');
+    });
+  }
+  
+  function atualizarEstatisticas(estatisticas) {
+    const cards = {
+      'agendamentosHoje': estatisticas.agendamentos_hoje || 0,
+      'agendamentosMes': estatisticas.agendamentos_mes || 0,
+      'servicosDisponiveis': estatisticas.total_servicos || 0,
+      'totalClientes': estatisticas.total_clientes || 0,
+      'agendamentosPendentes': estatisticas.agendamentos_pendentes || 0
+    };
+    
+    Object.entries(cards).forEach(([id, valor]) => {
+      const elemento = document.getElementById(id);
+      if (elemento) {
+        const atual = parseInt(elemento.textContent) || 0;
+        if (atual !== valor) {
+          animarContagem(elemento, atual, valor);
+        }
+      }
+    });
+  }
+  
+  function animarContagem(elemento, inicio, fim) {
+    const duracao = 1000;
+    const startTime = Date.now();
+    
+    function atualizar() {
+      const tempoPassado = Date.now() - startTime;
+      const progresso = Math.min(tempoPassado / duracao, 1);
+      
+      // Easing function
+      const easeOutCubic = 1 - Math.pow(1 - progresso, 3);
+      const atual = inicio + (fim - inicio) * easeOutCubic;
+      
+      elemento.textContent = Math.round(atual);
+      
+      if (progresso < 1) {
+        requestAnimationFrame(atualizar);
+      } else {
+        elemento.textContent = fim;
+      }
+    }
+    
+    requestAnimationFrame(atualizar);
+  }
+  
+  function atualizarTabelaAgendamentos(agendamentos) {
+    const tbody = document.getElementById('tabelaAgendamentosBody');
+    if (!tbody) return;
+    
+    if (!agendamentos || agendamentos.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align: center; padding: 2rem;">
+            <i class="fas fa-calendar-times" style="font-size: 2rem; color: var(--secondary-color); margin-bottom: 1rem;"></i>
+            <p style="color: var(--secondary-color);">Nenhum agendamento encontrado</p>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+    
+    // Limitar a 10 agendamentos
+    const recentes = agendamentos.slice(0, 10);
+    
+    const html = recentes.map(agendamento => {
+      const status = agendamento.status || 'pendente';
+      let statusClass = 'warning';
+      let statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
+      
+      switch (status) {
+        case 'realizado': statusClass = 'success'; break;
+        case 'confirmado': statusClass = 'info'; break;
+        case 'cancelado': statusClass = 'danger'; break;
+      }
+      
+      // Formatação responsiva
+      const isMobile = window.innerWidth <= 768;
+      const clienteNome = isMobile ? 
+        (agendamento.cliente_nome?.split(' ')[0] || 'Cliente') : 
+        (agendamento.cliente_nome || 'Cliente não informado');
+      
+      const servicoNome = isMobile ? 
+        (agendamento.servico_nome?.substring(0, 15) + (agendamento.servico_nome?.length > 15 ? '...' : '') || 'Serviço') : 
+        (agendamento.servico_nome || 'Serviço não informado');
+      
+      return `
+        <tr>
+          <td style="${isMobile ? 'max-width: 100px; overflow: hidden; text-overflow: ellipsis;' : ''}">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fas fa-user-circle" style="color: var(--secondary-color);"></i>
+              <span>${clienteNome}</span>
+            </div>
+          </td>
+          <td style="${isMobile ? 'max-width: 100px; overflow: hidden; text-overflow: ellipsis;' : ''}">${servicoNome}</td>
+          <td>${formatarData(agendamento.data_agendamento)}</td>
+          <td>${agendamento.hora_agendamento || '--:--'}</td>
+          <td>
+            <span class="status-badge" 
+                  style="padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.7rem; font-weight: 600; background-color: var(--${statusClass}-color); color: white; display: inline-block; min-width: 70px; text-align: center;">
+              ${statusLabel}
+            </span>
+          </td>
+        </tr>
+      `;
+    }).join('');
+    
+    tbody.innerHTML = html;
+  }
+  
+  function atualizarGraficoStatus(estatisticas) {
+    const graficoStatus = document.getElementById('graficoStatus');
+    if (!graficoStatus) return;
+    
+    const statusData = [
+      { 
+        label: 'Pendentes', 
+        value: estatisticas.agendamentos_pendentes || 0, 
+        color: 'var(--warning-color)',
+        icon: 'fas fa-clock'
+      },
+      { 
+        label: 'Confirmados', 
+        value: estatisticas.agendamentos_confirmados || 0, 
+        color: 'var(--info-color)',
+        icon: 'fas fa-check-circle'
+      },
+      { 
+        label: 'Realizados', 
+        value: estatisticas.agendamentos_realizados || 0, 
+        color: 'var(--success-color)',
+        icon: 'fas fa-calendar-check'
+      },
+      { 
+        label: 'Cancelados', 
+        value: estatisticas.agendamentos_cancelados || 0, 
+        color: 'var(--danger-color)',
+        icon: 'fas fa-times-circle'
+      }
+    ];
+    
+    const total = statusData.reduce((sum, item) => sum + item.value, 0);
+    
+    if (total === 0) {
+      graficoStatus.innerHTML = `
+        <div style="text-align: center; padding: 2rem;">
+          <i class="fas fa-chart-pie" style="font-size: 2rem; color: var(--secondary-color); margin-bottom: 1rem;"></i>
+          <p style="color: var(--secondary-color); font-size: 0.9rem;">Nenhum dado disponível</p>
+        </div>
+      `;
+      return;
+    }
+    
+    const isMobile = window.innerWidth < 768;
+    let chartHTML = '';
+    
+    if (isMobile) {
+      // Layout vertical para mobile
+      chartHTML = `
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+      `;
+      
+      statusData.forEach(item => {
+        const porcentagem = total > 0 ? ((item.value / total) * 100).toFixed(1) : 0;
+        chartHTML += `
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="width: 20px; text-align: center;">
+              <i class="${item.icon}" style="color: ${item.color}; font-size: 1rem;"></i>
+            </div>
+            <div style="flex: 1;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                <span style="font-weight: 600; font-size: 0.85rem;">${item.label}</span>
+                <span style="font-weight: bold; color: ${item.color}; font-size: 0.9rem;">${item.value}</span>
+              </div>
+              <div class="chart-bar-container">
+                <div class="chart-bar-fill" 
+                     style="width: 0%; background: ${item.color}" 
+                     data-width="${porcentagem}">
+                </div>
+              </div>
+              <div style="text-align: right; font-size: 0.75rem; color: var(--secondary-color); margin-top: 0.25rem;">
+                ${porcentagem}%
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      
+      chartHTML += `</div>`;
+    } else {
+      // Layout horizontal para tablet/desktop
+      chartHTML = `
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+      `;
+      
+      statusData.forEach(item => {
+        const porcentagem = total > 0 ? ((item.value / total) * 100).toFixed(1) : 0;
+        chartHTML += `
+          <div style="text-align: center; background: var(--card-bg); padding: 1rem; border-radius: var(--border-radius); box-shadow: var(--shadow);">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">
+              <i class="${item.icon}" style="color: ${item.color};"></i>
+            </div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: ${item.color}; margin-bottom: 0.25rem;">
+              ${item.value}
+            </div>
+            <div style="font-size: 0.9rem; color: var(--text-color); font-weight: 600; margin-bottom: 0.25rem;">
+              ${item.label}
+            </div>
+            <div style="font-size: 0.8rem; color: var(--secondary-color);">
+              ${porcentagem}%
+            </div>
+          </div>
+        `;
+      });
+      
+      chartHTML += `</div>`;
+    }
+    
+    graficoStatus.innerHTML = chartHTML;
+    
+    // Anima as barras
+    setTimeout(() => {
+      const bars = graficoStatus.querySelectorAll('.chart-bar-fill');
+      bars.forEach(bar => {
+        const width = bar.getAttribute('data-width');
+        bar.style.width = width + '%';
+      });
+    }, 100);
+  }
+  
+  function atualizarIndicadorAtualizacao() {
+    let indicador = document.getElementById('indicadorAtualizacao');
+    const isMobile = window.innerWidth < 768;
+    
+    if (!indicador) {
+      const sectionTitle = document.querySelector('.section-title');
+      if (sectionTitle) {
+        const indicadorHTML = `
+          <div id="indicadorAtualizacao" 
+               style="display: flex; align-items: center; gap: 0.5rem; justify-content: center; margin-top: 0.5rem; font-size: 0.8rem; color: var(--secondary-color);">
+            <i class="fas fa-sync-alt fa-spin" style="font-size: 0.8rem;"></i>
+            <span>Atualizado ${formatarHora()}</span>
+            <button onclick="atualizarDashboardManual()" 
+                    style="background: none; border: none; color: var(--primary-color); cursor: pointer; padding: 0.25rem; display: flex; align-items: center; gap: 0.25rem; font-size: 0.8rem;">
+              <i class="fas fa-redo"></i>
+              ${isMobile ? '' : 'Atualizar'}
+            </button>
+          </div>
+        `;
+        sectionTitle.insertAdjacentHTML('afterend', indicadorHTML);
+        indicador = document.getElementById('indicadorAtualizacao');
+      }
+    } else {
+      const span = indicador.querySelector('span');
+      const icon = indicador.querySelector('.fa-sync-alt');
+      if (span) span.textContent = `Atualizado ${formatarHora()}`;
+      if (icon) {
+        icon.classList.add('fa-spin');
+        setTimeout(() => icon.classList.remove('fa-spin'), 500);
+      }
+    }
+  }
+  
+  function mostrarEstadoErro() {
+    removerEstadoCarregamento();
+    
+    const cards = ['agendamentosHoje', 'agendamentosMes', 'servicosDisponiveis', 'totalClientes', 'agendamentosPendentes'];
+    cards.forEach(id => {
+      const elemento = document.getElementById(id);
+      if (elemento && elemento.textContent === '0') {
+        elemento.textContent = '--';
+      }
+    });
+    
+    const tbody = document.getElementById('tabelaAgendamentosBody');
+    if (tbody) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align: center; padding: 2rem;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: var(--warning-color); margin-bottom: 1rem;"></i>
+            <p style="color: var(--warning-color); margin-bottom: 1rem;">Erro ao carregar dados</p>
+            <button onclick="carregarDashboardCompleto()" 
+                    style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--primary-color); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.9rem;">
+              <i class="fas fa-redo"></i> Tentar novamente
+            </button>
+          </td>
+        </tr>
+      `;
+    }
+    
+    showNotification('Erro ao carregar dados. Verifique sua conexão.', 'error');
+  }
+  
+  function showNotification(message, type = 'info') {
+    let notification = document.getElementById('dashboardNotification');
+    if (!notification) {
+      notification = document.createElement('div');
+      notification.id = 'dashboardNotification';
+      notification.className = 'notification';
+      document.body.appendChild(notification);
+    }
+    
+    const colors = {
+      success: 'var(--success-color)',
+      error: 'var(--danger-color)',
+      warning: 'var(--warning-color)',
+      info: 'var(--info-color)'
+    };
+    
+    const icons = {
+      success: 'check-circle',
+      error: 'exclamation-circle',
+      warning: 'exclamation-triangle',
+      info: 'info-circle'
+    };
+    
+    notification.innerHTML = `
+      <i class="fas fa-${icons[type] || 'info-circle'}"></i>
+      <span style="flex: 1; font-size: 0.9rem;">${message}</span>
+    `;
+    notification.style.backgroundColor = colors[type] || colors.info;
+    notification.style.color = 'white';
+    
+    notification.classList.add('show');
+    
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, 3000);
+  }
+  
+  // =====================
+  // ASSISTENTE AG
+  // =====================
+  
+  const agAvatarContainer = document.getElementById('agAvatarContainer');
+  const agChat = document.getElementById('agChat');
+  const agMessages = document.getElementById('agMessages');
+  const agClose = document.getElementById('agClose');
+  const agActionButtons = document.querySelectorAll('.ag-action-btn');
+
+  let isChatOpen = false;
+  let hasInteracted = false;
+
+  const FAQ_RESPONSES = {
+    'tutorial': '**Tutorial Completo:**\n\n1) **Agendamentos**: Clique em "Novo Agendamento"\n2) **Serviços**: Cadastre seus serviços\n3) **Clientes**: Gerencie seus clientes\n4) **Dashboard**: Acompanhe tudo em tempo real',
+    'agendamento': '**Criar Agendamento:**\n\n1) Clique em "Novo Agendamento"\n2) Selecione cliente e serviço\n3) Escolha data e horário\n4) Confirme o agendamento',
+    'servico': '**Cadastrar Serviços:**\n\n1) Vá para "Serviços"\n2) Clique em "Adicionar Serviço"\n3) Preencha as informações\n4) Salve o serviço',
+    'cliente': '**Gerenciar Clientes:**\n\n1) Acesse "Clientes"\n2) Adicione novos clientes\n3) Atualize informações\n4) Mantenha os dados atualizados',
+    'dashboard': '**Dashboard:**\n\n• Veja estatísticas em tempo real\n• Gráfico de status dos agendamentos\n• Lista de agendamentos recentes\n• Acesso rápido às funcionalidades',
+    'suporte': '**Suporte Técnico:**\n\nWhatsApp: (61) 98582-5956\nInstagram: @agendamentomais\n\nHorário: Seg-Sex: 8h-18h',
+    'ajuda': 'Como posso ajudar? Escolha uma opção abaixo:'
+  };
+
+  function agSendMessage(message, isUser = false) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `ag-message ${isUser ? 'user' : 'ag'}`;
+    messageDiv.innerHTML = message.replace(/\n/g, '<br>');
+    agMessages.appendChild(messageDiv);
+    agMessages.scrollTop = agMessages.scrollHeight;
+  }
+
+  async function agTypeMessage(message, delay = 30) {
+    return new Promise(resolve => {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'ag-message ag';
+      agMessages.appendChild(messageDiv);
+      
+      let i = 0;
+      const typing = setInterval(() => {
+        if (i < message.length) {
+          if (message.charAt(i) === '*' && message.charAt(i + 1) === '*') {
+            messageDiv.innerHTML += '<strong>';
+            i += 2;
+          } else if (message.charAt(i) === '\n') {
+            messageDiv.innerHTML += '<br>';
+            i++;
+          } else {
+            messageDiv.innerHTML += message.charAt(i);
+            i++;
+          }
+          agMessages.scrollTop = agMessages.scrollHeight;
+        } else {
+          clearInterval(typing);
+          resolve();
+        }
+      }, delay);
+    });
+  }
+
+  async function processAction(action) {
+    const response = FAQ_RESPONSES[action] || FAQ_RESPONSES['ajuda'];
+    await agTypeMessage(response);
+    hasInteracted = true;
+  }
+
+  function toggleChat() {
+    isChatOpen = !isChatOpen;
+    agChat.classList.toggle('active', isChatOpen);
+    agChat.setAttribute('aria-modal', isChatOpen);
+
+    if (isChatOpen && !hasInteracted) {
+      setTimeout(async () => {
+        await agTypeMessage("👋 Olá! Eu sou o AG, seu assistente virtual. Como posso ajudar?");
+      }, 500);
+    }
+  }
+
+  // Event Listeners do AG
+  if (agAvatarContainer) {
+    agAvatarContainer.addEventListener('click', toggleChat);
+    agAvatarContainer.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleChat();
+      }
+    });
+  }
+
+  if (agClose) agClose.addEventListener('click', toggleChat);
+
+  if (agActionButtons) {
+    agActionButtons.forEach(button => {
+      button.addEventListener('click', async () => {
+        const action = button.getAttribute('data-action');
+        await processAction(action);
+      });
+    });
+  }
+
+  // Fechar chat ao tocar fora (mobile)
+  document.addEventListener('click', (e) => {
+    if (isChatOpen && 
+        !agChat.contains(e.target) && 
+        !agAvatarContainer.contains(e.target)) {
+      toggleChat();
+    }
+  });
+
+  // =====================
+  // FUNÇÕES GLOBAIS
+  // =====================
+  
+  window.atualizarDashboardManual = function() {
+    console.log('🔄 Atualização manual do dashboard...');
+    carregarDashboardCompleto();
+    showNotification('Atualizando dados...', 'info');
+  };
+  
+  // =====================
+  // INICIALIZAÇÃO
+  // =====================
+  
+  // Preloader
+  window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+      setTimeout(() => {
+        preloader.classList.add('hidden');
+        setTimeout(() => {
+          if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
+        }, 300);
+      }, 1000);
+    }
+  });
+  
+  // Carregar dados inicialmente
+  setTimeout(() => {
+    console.log('🚀 Inicializando dashboard...');
+    carregarDashboardCompleto();
+  }, 500);
+  
+  // Atualização em tempo real (a cada 30 segundos)
+  setInterval(() => {
+    if (!document.hidden) {
+      console.log('🔄 Atualização automática do dashboard...');
+      carregarDashboardCompleto();
+    }
+  }, 30000);
+  
+  // Carregar dados quando a conexão voltar
+  window.addEventListener('online', () => {
+    showNotification('Conexão restabelecida!', 'success');
+    carregarDashboardCompleto();
+  });
+  
+  window.addEventListener('offline', () => {
+    showNotification('Você está offline. Algumas funcionalidades podem estar limitadas.', 'warning');
+  });
+  
+  // Atualizar ao voltar para a aba
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      carregarDashboardCompleto();
+    }
+  });
+  
+  console.log('✅ Dashboard inicializado com sucesso!');
+});
+</script>
+</body>
+</html>

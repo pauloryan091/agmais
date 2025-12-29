@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurações - Agendamento+</title>
+  
+  <!-- Meta tags para PWA e responsividade -->
+  <meta name="theme-color" content="#007bff">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#007bff">
+  <meta name="msapplication-navbutton-color" content="#007bff">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- CSS do Header -->
+  <link rel="stylesheet" href="header.css">
+  
+  <style>
+    /* ========================
+       TEMA CLARO/ESCURO - OTIMIZADO
+    ======================== */
+    :root {
+      --bg-color: #f4f4f4;
+      --text-color: #333;
+      --card-bg: #fff;
+      --primary-color: #007bff;
+      --secondary-color: #6c757d;
+      --success-color: #28a745;
+      --warning-color: #ffc107;
+      --danger-color: #dc3545;
+      --info-color: #17a2b8;
+      --shadow: 0 2px 10px rgba(0,0,0,0.1);
+      --border-radius: 12px;
+      --transition: all 0.3s ease;
+    }
+    .footer-link i {
+  font-size: 1.5rem;
+}
+    [data-theme="dark"] {
+      --bg-color: #1e1e1e;
+      --text-color: #f4f4f4;
+      --card-bg: #2a2a2a;
+      --primary-color: #0d6efd;
+      --secondary-color: #5a6268;
+      --success-color: #218838;
+      --warning-color: #e0a800;
+      --danger-color: #c82333;
+      --info-color: #138496;
+      --shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    /* ========================
+       RESET E BASE RESPONSIVA
+    ======================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      transition: var(--transition);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* ========================
+       MAIN CONTENT RESPONSIVO
+    ======================== */
+    .main-content {
+      flex: 1;
+      padding: 2rem 0;
+    }
+
+    .section {
+      background: var(--card-bg);
+      padding: clamp(1.5rem, 4vw, 2rem);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      color: var(--text-color);
+      font-weight: 700;
+    }
+
+    /* ========================
+       CONFIGURAÇÕES GRID
+    ======================== */
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .setting-card {
+      background: var(--card-bg);
+      padding: clamp(1.25rem, 3vw, 1.5rem);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      border-left: 5px solid var(--primary-color);
+      transition: transform 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .setting-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .setting-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .setting-icon {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      color: var(--primary-color);
+      width: 3rem;
+      text-align: center;
+    }
+
+    .setting-title {
+      font-size: clamp(1.125rem, 3vw, 1.3rem);
+      font-weight: 700;
+      margin: 0;
+      color: var(--text-color);
+    }
+
+    .setting-description {
+      color: var(--secondary-color);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+      font-size: clamp(0.875rem, 2.5vw, 0.95rem);
+      flex: 1;
+    }
+
+    /* ========================
+       SWITCH PERSONALIZADO
+    ======================== */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary-color);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    /* ========================
+       BOTÕES
+    ======================== */
+    .btn {
+      padding: clamp(0.875rem, 2.5vw, 1rem) clamp(1rem, 3vw, 1.25rem);
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: clamp(0.875rem, 2.5vw, 1rem);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 50px;
+    }
+
+    .btn-primary { background-color: var(--primary-color); color: white; }
+    .btn-success { background-color: var(--success-color); color: white; }
+    .btn-secondary { background-color: var(--secondary-color); color: white; }
+    .btn-info { background-color: var(--info-color); color: white; }
+    .btn-danger { 
+      background-color: var(--danger-color); 
+      color: white; 
+      border: none;
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      opacity: 0.9;
+    }
+
+    /* ========================
+       STATUS DO SISTEMA
+    ======================== */
+    .system-status {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .status-online {
+      background-color: var(--success-color);
+    }
+
+    .status-offline {
+      background-color: var(--danger-color);
+    }
+
+    .status-text {
+      font-weight: 600;
+    }
+
+    .version-info {
+      background: rgba(0,123,255,0.1);
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      margin-top: 1rem;
+    }
+
+    .version-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .version-label {
+      color: var(--secondary-color);
+      font-weight: 600;
+    }
+
+    .version-value {
+      color: var(--text-color);
+    }
+
+    /* ========================
+       CONTROLE DE NEVE
+    ======================== */
+    .neve-control {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: rgba(0, 123, 255, 0.05);
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(0, 123, 255, 0.1);
+    }
+
+    .neve-status {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* ========================
+       BOTÃO DE SAIR - ESTILOS
+    ======================== */
+    .logout-section {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    [data-theme="dark"] .logout-section {
+      border-top-color: rgba(255,255,255,0.1);
+    }
+
+    .logout-warning {
+      background: rgba(220, 53, 69, 0.1);
+      border: 1px solid rgba(220, 53, 69, 0.2);
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .logout-warning h4 {
+      color: var(--danger-color);
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .logout-warning p {
+      color: var(--secondary-color);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .logout-btn-container {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-logout {
+      background: linear-gradient(135deg, var(--danger-color) 0%, #c82333 100%);
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      min-width: 200px;
+      border: none;
+    }
+
+    .btn-logout i {
+      font-size: 1.2rem;
+    }
+
+    .btn-logout:hover {
+      background: linear-gradient(135deg, #c82333 0%, #a71d2a 100%);
+    }
+
+    .btn-cancel {
+      background-color: var(--secondary-color);
+    }
+
+    .btn-cancel:hover {
+      background-color: #545b62;
+    }
+
+    /* Modal de confirmação de saída */
+    .logout-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .logout-modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      animation: slideUp 0.3s ease;
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-header i {
+      font-size: 3rem;
+      color: var(--danger-color);
+      margin-bottom: 1rem;
+    }
+
+    .modal-header h3 {
+      color: var(--text-color);
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-body {
+      margin-bottom: 2rem;
+      text-align: center;
+      color: var(--secondary-color);
+      line-height: 1.6;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* ========================
+       FOOTER RESPONSIVO
+    ======================== */
+    .footer {
+      background: var(--card-bg);
+      padding: 2rem 0 1rem;
+      text-align: center;
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+      margin-top: auto;
+      width: 100%;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr auto auto;
+        align-items: center;
+        text-align: left;
+      }
+    }
+
+    .footer-brand {
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-brand {
+        text-align: left;
+      }
+    }
+
+    .footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-nav {
+        justify-content: flex-start;
+      }
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-social {
+        justify-content: flex-end;
+      }
+    }
+
+    .footer-nav a,
+    .footer-social a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-weight: 500;
+    }
+
+    .footer-nav a:hover,
+    .footer-social a:hover {
+      text-decoration: underline;
+      color: #0056b3;
+    }
+
+    .footer-copy {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #ddd;
+      color: var(--secondary-color);
+    }
+
+    [data-theme="dark"] .footer-copy {
+      border-top-color: #444;
+    }
+
+    /* ========================
+       PRELOADER OTIMIZADO
+    ======================== */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .preloader-logo {
+      font-size: clamp(1.5rem, 8vw, 2.5rem);
+      font-weight: 700;
+      color: var(--primary-color);
+      animation: pulse 1.2s infinite ease-in-out;
+      margin-bottom: 1rem;
+    }
+
+    .preloader-text {
+      color: var(--secondary-color);
+      font-size: clamp(0.9rem, 3vw, 1rem);
+      text-align: center;
+    }
+
+    @keyframes pulse {
+      0%, 100% { 
+        opacity: 0.7; 
+        transform: scale(1); 
+      }
+      50% { 
+        opacity: 1; 
+        transform: scale(1.05); 
+      }
+    }
+
+    /* ========================
+       NEVE NATALINA
+    ======================== */
+    .snow-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      color: #e0f7fa;
+      font-size: 1em;
+      user-select: none;
+      pointer-events: none;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
+    .frozen {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .frozen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(173, 216, 230, 0.3);
+      border: 2px solid #b3e0ff;
+      border-radius: 12px;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .frozen::after {
+      content: '❄️';
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-size: 1.2rem;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .ice-crack {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 30% 30%, transparent 10px, rgba(255,255,255,0.8) 11px, transparent 12px),
+        radial-gradient(circle at 70% 70%, transparent 8px, rgba(255,255,255,0.8) 9px, transparent 10px),
+        radial-gradient(circle at 50% 20%, transparent 6px, rgba(255,255,255,0.8) 7px, transparent 8px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .breaking {
+      animation: breakIce 0.5s ease forwards;
+    }
+
+    @keyframes breakIce {
+      0% {
+        opacity: 0;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.2);
+      }
+    }
+
+    /* ========================
+       BREAKPOINTS ESPECÍFICOS
+    ======================== */
+    
+    /* Mobile Small (até 360px) */
+    @media (max-width: 360px) {
+      .container {
+        width: 95%;
+        padding: 0 0.5rem;
+      }
+      
+      .section {
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+      }
+      
+      .settings-grid {
+        gap: 1rem;
+      }
+      
+      .setting-card {
+        padding: 1rem;
+      }
+      
+      .logout-btn-container {
+        flex-direction: column;
+      }
+      
+      .btn-logout {
+        min-width: 100%;
+      }
+    }
+
+    /* Mobile (até 480px) */
+    @media (max-width: 480px) {
+      .settings-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+      }
+      
+      .modal-footer {
+        flex-direction: column;
+      }
+    }
+
+    /* Tablet (768px a 1024px) */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .settings-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* ========================
+       ACESSIBILIDADE
+    ======================== */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Foco visível para acessibilidade */
+    .btn:focus-visible,
+    .switch:focus-visible {
+      outline: 3px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header será inserido automaticamente aqui -->
+
+<main class="main-content container">
+  <section class="section">
+    <h1 class="section-title">Configurações do Sistema</h1>
+    
+    <div class="settings-grid">
+      <!-- Documentação do Sistema -->
+      <div class="setting-card">
+        <div class="setting-header">
+          <div class="setting-icon"></div>
+          <h3 class="setting-title">Documentação</h3>
+        </div>
+        <p class="setting-description">Acesse a documentação completa do sistema para entender todas as funcionalidades disponíveis.</p>
+        
+        <div class="version-info">
+          <div class="version-item">
+            <span class="version-label">Manual do Usuário:</span>
+            <span class="version-value">Disponível</span>
+          </div>
+          <div class="version-item">
+            <span class="version-label">Guia de Instalação:</span>
+            <span class="version-value">Incluído</span>
+          </div>
+          <div class="version-item">
+            <span class="version-label">FAQ:</span>
+            <span class="version-value">Atualizado</span>
+          </div>
+        </div>
+
+        <button class="btn btn-info" onclick="baixarDocumentacao()" style="margin-top: 1.5rem;">
+           Baixar Documentação
+        </button>
+      </div>
+
+      <!-- Status do Sistema -->
+      <div class="setting-card">
+        <div class="setting-header">
+          <div class="setting-icon"></div>
+          <h3 class="setting-title">Status do Sistema</h3>
+        </div>
+        <p class="setting-description">Verifique o status atual do sistema e disponibilidade de atualizações.</p>
+        
+        <div class="system-status">
+          <div class="status-indicator status-online" id="systemStatusIndicator"></div>
+          <span class="status-text" id="systemStatusText">Verificando status...</span>
+        </div>
+
+        <div class="version-info">
+          <div class="version-item">
+            <span class="version-label">Versão Atual:</span>
+            <span class="version-value" id="currentVersion">2.3.0</span>
+          </div>
+          <div class="version-item">
+            <span class="version-label">Última Atualização:</span>
+            <span class="version-value">09/12/2025</span>
+          </div>
+          <div class="version-item">
+            <span class="version-label">Próxima Atualização:</span>
+            <span class="version-value">Junho/2026</span>
+          </div>
+        </div>
+
+        <button class="btn btn-secondary" onclick="verificarAtualizacoes()" style="margin-top: 1.5rem;">
+           Verificar Atualizações
+        </button>
+      </div>
+
+      <!-- Informações do Sistema -->
+      <div class="setting-card">
+        <div class="setting-header">
+          <div class="setting-icon"></div>
+          <h3 class="setting-title">Informações</h3>
+        </div>
+        <p class="setting-description">Informações técnicas e de suporte do sistema Agendamento+.</p>
+        
+        <div class="version-info">
+          <div class="version-item">
+            <span class="version-label">Desenvolvedor:</span>
+            <span class="version-value">Grupo Senac</span>
+          </div>
+          <div class="version-item">
+            <span class="version-label">Contato:</span>
+            <span class="version-value">senacgroup@gmail.com</span>
+          </div>
+          <div class="version-item">
+            <span class="version-label">Licença:</span>
+            <span class="version-value">Senac License</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO DE SAIR DO SISTEMA -->
+    <div class="logout-section">
+      <div class="logout-warning">
+        <h4><i class="fas fa-exclamation-triangle"></i> Aviso Importante</h4>
+        <p>Ao sair do sistema, você será desconectado e redirecionado para a página inicial. Todas as alterações não salvas serão perdidas. Certifique-se de salvar seu trabalho antes de sair.</p>
+      </div>
+      
+      <div class="logout-btn-container">
+        <button class="btn btn-logout" onclick="mostrarModalSair()">
+          <i class="fas fa-sign-out-alt"></i> Sair do Sistema
+        </button>
+        
+        <button class="btn btn-cancel" onclick="cancelarSair()">
+          <i class="fas fa-times"></i> Cancelar
+        </button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- MODAL DE CONFIRMAÇÃO DE SAÍDA -->
+<div id="logoutModal" class="logout-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <i class="fas fa-door-open"></i>
+      <h3>Confirmar Saída</h3>
+    </div>
+    
+    <div class="modal-body">
+      <p>Tem certeza que deseja sair do sistema? Você será redirecionado para a página de login onde poderá:</p>
+      <ul style="text-align: left; margin: 1rem 0; padding-left: 1.5rem;">
+        <li>Cadastrar um novo usuário</li>
+        <li>Fazer login com uma conta existente</li>
+        <li>Acessar o sistema com diferentes permissões</li>
+      </ul>
+      <p><strong>Deseja continuar?</strong></p>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn btn-danger" onclick="confirmarSair()">
+        <i class="fas fa-sign-out-alt"></i> Sim, Sair Agora
+      </button>
+      <button class="btn btn-secondary" onclick="fecharModalSair()">
+        <i class="fas fa-times"></i> Cancelar
+      </button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-content">
+    <div class="footer-brand">
+      <a href="#" class="logo">Agendamento+</a>
+      <p>Sistema de Agendamento Online</p>
+    </div>
+    <nav class="footer-nav">
+      <a href="dashboard.html" class="nav-link">Dashboard</a>
+      <a href="serviços.html" class="nav-link">Serviços</a>
+      <a href="agendamento.html" class="nav-link">Agendamentos</a>
+      <a href="clientes.html" class="nav-link">Clientes</a>
+      <a href="perfil.html" class="nav-link">Perfil</a>
+    </nav>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/agendamentomais/?next=%2F" target="_blank" class="footer-link" title="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://wa.me/5561985825956" target="_blank" class="footer-link" title="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+      </a>
+    </div>
+  </div>
+  <div class="footer-copy">
+    <p>&copy; 2025 Agendamento+. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script src="header.js"></script>
+<script>
+// CONFIGURAÇÕES DO SISTEMA
+document.addEventListener('DOMContentLoaded', () => {
+  
+  // =====================
+  // INICIALIZAÇÃO DO TEMA
+  // =====================
+  function inicializarTema() {
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  }
+
+  // =====================
+  // STATUS DO SISTEMA
+  // =====================
+  function verificarStatusSistema() {
+    const indicator = document.getElementById('systemStatusIndicator');
+    const statusText = document.getElementById('systemStatusText');
+    
+    setTimeout(() => {
+      indicator.className = 'status-indicator status-online';
+      statusText.textContent = 'Sistema Online e Funcionando';
+    }, 1000);
+  }
+
+  // =====================
+  // FUNÇÕES PARA SAIR DO SISTEMA
+  // =====================
+  
+  // Mostrar modal de confirmação
+  window.mostrarModalSair = function() {
+    const modal = document.getElementById('logoutModal');
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  };
+  
+  // Fechar modal
+  window.fecharModalSair = function() {
+    const modal = document.getElementById('logoutModal');
+    modal.classList.remove('show');
+    document.body.style.overflow = 'auto';
+  };
+  
+  // Cancelar saída
+  window.cancelarSair = function() {
+    fecharModalSair();
+    // Opcional: mostrar mensagem de cancelamento
+    notificarAcao('Saída cancelada', 'Você permanece logado no sistema.', 'info', 'fa-user-check');
+  };
+  
+  // Confirmar saída e redirecionar
+  window.confirmarSair = function() {
+    // Limpar dados da sessão (se houver)
+    localStorage.removeItem('usuarioLogado');
+    localStorage.removeItem('ultimoAcesso');
+    
+    // Mostrar mensagem de despedida
+    notificarAcao('Saindo do sistema...', 'Você será redirecionado para a página inicial.', 'info', 'fa-sign-out-alt');
+    
+    // Fechar modal
+    fecharModalSair();
+    
+    // Redirecionar após breve delay
+    setTimeout(() => {
+      // Adicionar efeito de transição
+      document.body.style.opacity = '0.5';
+      document.body.style.transition = 'opacity 0.5s ease';
+      
+      // Redirecionar para index.html
+      window.location.href = 'index.html';
+    }, 1500);
+  };
+  
+  // Fechar modal ao clicar fora
+  document.getElementById('logoutModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      fecharModalSair();
+    }
+  });
+  
+  // Fechar modal com tecla ESC
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      fecharModalSair();
+    }
+  });
+
+  // =====================
+  // FUNÇÕES GLOBAIS
+  // =====================
+  window.reiniciarEfeitosNatalinos = function() {
+    pararNeve();
+    setTimeout(() => {
+      if (localStorage.getItem('neveNatalina') !== 'false') {
+        iniciarNeve();
+      }
+    }, 100);
+    alert('🎄 Efeitos natalinos reiniciados!');
+  };
+
+  window.testarNeve = function() {
+    // Criar alguns flocos de teste
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => criarFlocoNeve(), i * 200);
+    }
+    alert('🧪 Teste de neve iniciado!');
+  };
+
+  window.getStatusNeve = function() {
+    return localStorage.getItem('neveNatalina') !== 'false';
+  };
+
+  window.toggleNeveNatalina = function(ativar) {
+    if (typeof ativar === 'boolean') {
+      localStorage.setItem('neveNatalina', ativar);
+      if (ativar) {
+        iniciarNeve();
+      } else {
+        pararNeve();
+      }
+      
+      const toggle = document.getElementById('toggleNeve');
+      if (toggle) {
+        toggle.checked = ativar;
+      }
+      
+      atualizarStatusNeve();
+    }
+    return getStatusNeve();
+  };
+  
+  // =====================
+  // FUNÇÕES DE CONFIGURAÇÃO
+  // =====================
+  window.baixarDocumentacao = () => {
+    const documentacao = `# Documentação do Sistema Agendamento+\n\n## Versão 2.2.0\n**Data:** 09/11/2025\n\n... conteúdo da documentação ...`;
+    
+    const blob = new Blob([documentacao], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'documentacao-agendamento-plus.md';
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    alert('Documentação baixada com sucesso!');
+  };
+
+  window.verificarAtualizacoes = () => {
+    const statusText = document.getElementById('systemStatusText');
+    const currentVersion = document.getElementById('currentVersion');
+    
+    statusText.textContent = 'Verificando atualizações...';
+    
+    setTimeout(() => {
+      statusText.textContent = 'Sistema atualizado!';
+      currentVersion.textContent = '2.3.0';
+      currentVersion.style.color = 'var(--success-color)';
+      alert('Seu sistema está na versão mais recente (v2.3.0)');
+    }, 2000);
+  };
+
+  // =====================
+  // INICIALIZAÇÃO
+  // =====================
+  inicializarTema();
+  verificarStatusSistema();
+});
+
+// NOTIFICAÇÕES POR PÁGINA
+const notificacoesPorPagina = {
+  'perfil.html': {
+    titulo: 'Perfil atualizado!',
+    mensagem: 'Suas informações foram salvas com sucesso.',
+    icone: 'fa-user-check',
+    cor: 'success'
+  },
+  'cadastro.html': {
+    titulo: 'Cadastro realizado!',
+    mensagem: 'Novo registro adicionado ao sistema.',
+    icone: 'fa-user-plus',
+    cor: 'success'
+  },
+  'servico.html': {
+    titulo: 'Serviço configurado!',
+    mensagem: 'As alterações foram aplicadas com sucesso.',
+    icone: 'fa-cog',
+    cor: 'info'
+  },
+  'agendamento.html': {
+    titulo: 'Agendamento confirmado!',
+    mensagem: 'O agendamento foi registrado no sistema.',
+    icone: 'fa-calendar-check',
+    cor: 'success'
+  },
+  'configuracoes.html': {
+    titulo: 'Configurações salvas!',
+    mensagem: 'Suas preferências foram atualizadas.',
+    icone: 'fa-save',
+    cor: 'info'
+  }
+};
+
+// CONFIGURAÇÃO DAS CORES
+const coresNotificacao = {
+  success: '#28a745',
+  info: '#17a2b8',
+  warning: '#ffc107',
+  error: '#dc3545',
+  primary: '#007bff'
+};
+
+// FUNÇÃO PRINCIPAL - MOSTRAR NOTIFICAÇÃO
+function mostrarNotificacaoPagina() {
+  const paginaAtual = window.location.pathname.split('/').pop() || 
+                      document.querySelector('title')?.textContent?.toLowerCase() + '.html' || 
+                      'index.html';
+  
+  let config = null;
+  
+  if (notificacoesPorPagina[paginaAtual]) {
+    config = notificacoesPorPagina[paginaAtual];
+  } else {
+    for (const pagina in notificacoesPorPagina) {
+      if (paginaAtual.includes(pagina.replace('.html', ''))) {
+        config = notificacoesPorPagina[pagina];
+        break;
+      }
+    }
+  }
+  
+  if (!config) {
+    config = {
+      titulo: 'Ação realizada!',
+      mensagem: 'Operação concluída com sucesso.',
+      icone: 'fa-check-circle',
+      cor: 'success'
+    };
+  }
+  
+  const notificacoesAntigas = document.querySelectorAll('.notificacao-pagina');
+  notificacoesAntigas.forEach(notificacao => {
+    notificacao.classList.add('notificacao-saindo');
+    setTimeout(() => notificacao.remove(), 300);
+  });
+  
+  criarNotificacao(config);
+}
+
+// FUNÇÃO PARA CRIAR A NOTIFICAÇÃO
+function criarNotificacao(config) {
+  const notification = document.createElement('div');
+  notification.className = 'notificacao-pagina';
+  notification.setAttribute('role', 'alert');
+  notification.setAttribute('aria-live', 'assertive');
+  
+  notification.innerHTML = `
+    <div class="notificacao-conteudo" style="
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${coresNotificacao[config.cor] || coresNotificacao.success};
+      color: white;
+      padding: 16px 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: entradaNotificacao 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      max-width: 380px;
+      min-width: 300px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      border-left: 5px solid rgba(255,255,255,0.3);
+    ">
+      <div class="notificacao-icone" style="
+        font-size: 1.4rem;
+        background: rgba(255,255,255,0.2);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      ">
+        <i class="fas ${config.icone}"></i>
+      </div>
+      
+      <div class="notificacao-texto" style="flex: 1;">
+        <div class="notificacao-titulo" style="
+          font-weight: 700;
+          font-size: 1rem;
+          margin-bottom: 4px;
+        ">
+          ${config.titulo}
+        </div>
+        <div class="notificacao-mensagem" style="
+          font-size: 0.875rem;
+          opacity: 0.9;
+          line-height: 1.4;
+        ">
+          ${config.mensagem}
+        </div>
+      </div>
+      
+      <button class="notificacao-fechar" onclick="this.closest('.notificacao-pagina').remove()" 
+              style="
+                background: none;
+                border: none;
+                color: white;
+                cursor: pointer;
+                font-size: 1.4rem;
+                opacity: 0.7;
+                padding: 0 8px;
+                line-height: 1;
+                transition: opacity 0.2s;
+                align-self: flex-start;
+              "
+              aria-label="Fechar notificação">
+        &times;
+      </button>
+    </div>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  const btnFechar = notification.querySelector('.notificacao-fechar');
+  btnFechar.addEventListener('mouseenter', () => {
+    btnFechar.style.opacity = '1';
+  });
+  btnFechar.addEventListener('mouseleave', () => {
+    btnFechar.style.opacity = '0.7';
+  });
+  
+  setTimeout(() => {
+    if (notification && notification.parentNode) {
+      notification.querySelector('.notificacao-conteudo').style.animation = 'saidaNotificacao 0.3s ease forwards';
+      setTimeout(() => {
+        if (notification && notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 300);
+    }
+  }, 5000);
+}
+
+// FUNÇÃO PARA ADICIONAR ESTILOS
+function adicionarEstilosNotificacao() {
+  if (document.querySelector('#estilos-notificacao')) return;
+  
+  const style = document.createElement('style');
+  style.id = 'estilos-notificacao';
+  
+  style.textContent = `
+    @keyframes entradaNotificacao {
+      from {
+        transform: translateX(100%) translateY(-20px) scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes saidaNotificacao {
+      from {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100%) translateY(-20px) scale(0.9);
+        opacity: 0;
+      }
+    }
+    
+    .notificacao-pagina .notificacao-conteudo:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    @media (max-width: 768px) {
+      .notificacao-pagina .notificacao-conteudo {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        min-width: auto;
+        margin: 0 auto;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .notificacao-pagina .notificacao-conteudo {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+        gap: 15px;
+      }
+      
+      .notificacao-pagina .notificacao-fechar {
+        align-self: center !important;
+        margin-top: 10px;
+      }
+    }
+    
+    [data-theme="dark"] .notificacao-pagina .notificacao-conteudo {
+      background: var(--success-color) !important;
+    }
+    
+    .notificacao-fechar:focus {
+      outline: 2px solid white;
+      outline-offset: 2px;
+    }
+    
+    .notificacao-saindo .notificacao-conteudo {
+      animation: saidaNotificacao 0.3s ease forwards !important;
+    }
+  `;
+  
+  document.head.appendChild(style);
+}
+
+// FUNÇÃO PARA MOSTRAR NOTIFICAÇÃO PERSONALIZADA
+function notificarAcao(titulo, mensagem, tipo = 'success', icone = null) {
+  const iconesPadrao = {
+    success: 'fa-check-circle',
+    info: 'fa-info-circle',
+    warning: 'fa-exclamation-triangle',
+    error: 'fa-times-circle',
+    primary: 'fa-bell'
+  };
+  
+  const config = {
+    titulo: titulo,
+    mensagem: mensagem,
+    icone: icone || iconesPadrao[tipo] || 'fa-check-circle',
+    cor: tipo
+  };
+  
+  criarNotificacao(config);
+}
+
+// INICIALIZAÇÃO - MOSTRA NOTIFICAÇÃO AO CARREGAR
+document.addEventListener('DOMContentLoaded', function() {
+  adicionarEstilosNotificacao();
+  
+  setTimeout(function() {
+    mostrarNotificacaoPagina();
+  }, 1000);
+});
+
+// Variável global para acesso fácil
+window.notificar = notificarAcao;
+</script>
+</body>
+</html>

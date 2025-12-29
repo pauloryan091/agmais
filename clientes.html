@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clientes - Agendamento+</title>
+  
+  <!-- Meta tags para PWA e responsividade -->
+  <meta name="theme-color" content="#007bff">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#007bff">
+  <meta name="msapplication-navbutton-color" content="#007bff">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- CSS do Header -->
+  <link rel="stylesheet" href="header.css">
+  
+  <style>
+    /* ========================
+       TEMA CLARO/ESCURO - OTIMIZADO
+    ======================== */
+    :root {
+      --bg-color: #f4f4f4;
+      --text-color: #333;
+      --card-bg: #fff;
+      --primary-color: #007bff;
+      --secondary-color: #6c757d;
+      --success-color: #28a745;
+      --warning-color: #ffc107;
+      --danger-color: #dc3545;
+      --info-color: #17a2b8;
+      --shadow: 0 2px 10px rgba(0,0,0,0.1);
+      --border-radius: 12px;
+      --transition: all 0.3s ease;
+    }
+    
+    [data-theme="dark"] {
+      --bg-color: #1e1e1e;
+      --text-color: #f4f4f4;
+      --card-bg: #2a2a2a;
+      --primary-color: #0d6efd;
+      --secondary-color: #5a6268;
+      --success-color: #218838;
+      --warning-color: #e0a800;
+      --danger-color: #c82333;
+      --info-color: #138496;
+      --shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    /* ========================
+       RESET E BASE RESPONSIVA
+    ======================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      transition: var(--transition);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* ========================
+       MAIN CONTENT RESPONSIVO
+    ======================== */
+    .main-content {
+      flex: 1;
+      padding: 2rem 0;
+    }
+
+    .section {
+      background: var(--card-bg);
+      padding: clamp(1.5rem, 4vw, 2rem);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      color: var(--text-color);
+      font-weight: 700;
+    }
+
+    /* ========================
+       PAGE HEADER
+    ======================== */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* ========================
+       FILTROS
+    ======================== */
+    .filtros-container {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .filtros-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .filtros-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .filtros-toggle {
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+.footer-link i {
+  font-size: 1.5rem;
+}
+    .filtros-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .filtros-actions {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-end;
+    }
+
+    .filtro-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filtro-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+
+    /* ========================
+       BOTÕES
+    ======================== */
+    .btn {
+      padding: clamp(0.875rem, 2.5vw, 1rem) clamp(1rem, 3vw, 1.25rem);
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: clamp(0.875rem, 2.5vw, 1rem);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .btn-success {
+      background-color: var(--success-color);
+      color: white;
+    }
+
+    .btn-secondary {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+
+    .btn-danger {
+      background-color: var(--danger-color);
+      color: white;
+    }
+
+    .btn-warning {
+      background-color: var(--warning-color);
+      color: black;
+    }
+
+    .btn-info {
+      background-color: var(--info-color);
+      color: white;
+    }
+
+    .btn-sm {
+      padding: clamp(0.5rem, 1.5vw, 0.75rem) clamp(0.75rem, 2vw, 1rem);
+      font-size: clamp(0.75rem, 2vw, 0.875rem);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      opacity: 0.9;
+    }
+
+    /* ========================
+       MODAL
+    ======================== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: clamp(1rem, 3vw, 1.5rem);
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      padding: clamp(1.5rem, 4vw, 2rem);
+      border-radius: var(--border-radius);
+      width: 100%;
+      max-width: min(500px, 95vw);
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: clamp(0.75rem, 2vw, 1rem);
+      right: clamp(0.75rem, 2vw, 1rem);
+      background: none;
+      border: none;
+      font-size: clamp(1.25rem, 4vw, 1.5rem);
+      cursor: pointer;
+      color: var(--text-color);
+      padding: 0.25rem;
+    }
+
+    .form-group {
+      margin-bottom: clamp(1rem, 3vw, 1.25rem);
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: clamp(0.5rem, 1.5vw, 0.75rem);
+      font-weight: 600;
+      color: var(--text-color);
+      font-size: clamp(0.875rem, 2.5vw, 1rem);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: clamp(0.75rem, 2vw, 1rem);
+      border-radius: var(--border-radius);
+      border: 2px solid #ddd;
+      font-size: clamp(0.875rem, 2.5vw, 1rem);
+      background: var(--card-bg);
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: clamp(0.5rem, 1.5vw, 0.75rem);
+      justify-content: flex-end;
+      margin-top: clamp(1.5rem, 4vw, 2rem);
+      flex-wrap: wrap;
+    }
+
+    /* ========================
+       TABELA RESPONSIVA
+    ======================== */
+    .table-responsive {
+      overflow-x: auto;
+      margin-top: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    .table th, .table td {
+      padding: clamp(0.75rem, 2vw, 1rem);
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+    }
+
+    [data-theme="dark"] .table th,
+    [data-theme="dark"] .table td {
+      border-bottom-color: #444;
+    }
+
+    .table th {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      white-space: nowrap;
+    }
+
+    .table-striped tbody tr:nth-child(even) {
+      background-color: rgba(0,0,0,0.03);
+    }
+
+    [data-theme="dark"] .table-striped tbody tr:nth-child(even) {
+      background-color: rgba(255,255,255,0.05);
+    }
+
+    .table tbody tr:hover {
+      background-color: rgba(0,123,255,0.08);
+    }
+
+    /* ========================
+       FOOTER RESPONSIVO
+    ======================== */
+    .footer {
+      background: var(--card-bg);
+      padding: 2rem 0 1rem;
+      text-align: center;
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+      margin-top: auto;
+      width: 100%;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr auto auto;
+        align-items: center;
+        text-align: left;
+      }
+    }
+
+    .footer-brand {
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-brand {
+        text-align: left;
+      }
+    }
+
+    .footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-nav {
+        justify-content: flex-start;
+      }
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-social {
+        justify-content: flex-end;
+      }
+    }
+
+    .footer-nav a,
+    .footer-social a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-weight: 500;
+    }
+
+    /* NEVE NATALINA - snow.css */
+    .snow-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      color: #e0f7fa;
+      font-size: 1em;
+      user-select: none;
+      pointer-events: none;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
+    .frozen {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .frozen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(173, 216, 230, 0.3);
+      border: 2px solid #b3e0ff;
+      border-radius: 12px;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .frozen::after {
+      content: '❄️';
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-size: 1.2rem;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .ice-crack {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 30% 30%, transparent 10px, rgba(255,255,255,0.8) 11px, transparent 12px),
+        radial-gradient(circle at 70% 70%, transparent 8px, rgba(255,255,255,0.8) 9px, transparent 10px),
+        radial-gradient(circle at 50% 20%, transparent 6px, rgba(255,255,255,0.8) 7px, transparent 8px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .breaking {
+      animation: breakIce 0.5s ease forwards;
+    }
+
+    @keyframes breakIce {
+      0% {
+        opacity: 0;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.2);
+      }
+    }
+
+    .footer-nav a:hover,
+    .footer-social a:hover {
+      text-decoration: underline;
+      color: #0056b3;
+    }
+
+    .footer-copy {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #ddd;
+      color: var(--secondary-color);
+    }
+
+    [data-theme="dark"] .footer-copy {
+      border-top-color: #444;
+    }
+
+    /* ========================
+       PRELOADER OTIMIZADO
+    ======================== */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .preloader-logo {
+      font-size: clamp(1.5rem, 8vw, 2.5rem);
+      font-weight: 700;
+      color: var(--primary-color);
+      animation: pulse 1.2s infinite ease-in-out;
+      margin-bottom: 1rem;
+    }
+
+    .preloader-text {
+      color: var(--secondary-color);
+      font-size: clamp(0.9rem, 3vw, 1rem);
+      text-align: center;
+    }
+
+    @keyframes pulse {
+      0%, 100% { 
+        opacity: 0.7; 
+        transform: scale(1); 
+      }
+      50% { 
+        opacity: 1; 
+        transform: scale(1.05); 
+      }
+    }
+
+    /* ========================
+       MENSAGEM DE VAZIO
+    ======================== */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--secondary-color);
+    }
+
+    .empty-state h3 {
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    /* ========================
+       RESPONSIVIDADE
+    ======================== */
+    @media (max-width: 768px) {
+      .filtros-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .table-responsive {
+        margin-top: 1rem;
+      }
+      
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+    
+  </style>
+</head>
+<body>
+
+
+<!-- Header será inserido automaticamente aqui -->
+
+<main class="main-content container">
+  <section class="section">
+    <div class="page-header">
+      <h1 class="section-title">Gerenciar Clientes</h1>
+      <button id="btnAddCliente" class="btn btn-success">
+        <i class="fas fa-plus"></i> Adicionar Cliente
+      </button>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filtros-container">
+      <div class="filtros-header">
+        <h3 class="filtros-title">Filtros</h3>
+        <button class="filtros-toggle" id="toggleFiltros">
+          <i class="fas fa-filter"></i> Filtros
+        </button>
+      </div>
+      
+      <div class="filtros-content" id="filtrosContent">
+        <div class="filtro-group">
+          <label class="filtro-label">Buscar por Nome</label>
+          <input type="text" id="filtroNome" class="form-control" placeholder="Digite o nome do cliente">
+        </div>
+        
+        <div class="filtro-group">
+          <label class="filtro-label">Buscar por Telefone</label>
+          <input type="text" id="filtroTelefone" class="form-control" placeholder="Digite o telefone">
+        </div>
+        
+        <div class="filtro-group">
+          <label class="filtro-label">Buscar por Email</label>
+          <input type="text" id="filtroEmail" class="form-control" placeholder="Digite o email">
+        </div>
+      </div>
+      
+      <div class="filtros-actions">
+        <button class="btn btn-primary btn-sm" id="btnAplicarFiltros">
+          <i class="fas fa-search"></i> Aplicar Filtros
+        </button>
+        <button class="btn btn-secondary btn-sm" id="btnLimparFiltros">
+          <i class="fas fa-times"></i> Limpar Filtros
+        </button>
+      </div>
+    </div>
+    
+    <div class="table-responsive">
+      <table class="table table-striped" id="tabelaClientes">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Email</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaClientesBody">
+          <!-- Clientes serão carregados dinamicamente -->
+        </tbody>
+      </table>
+    </div>
+
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <h3>Nenhum cliente encontrado</h3>
+      <p>Tente ajustar os filtros ou adicionar um novo cliente</p>
+    </div>
+  </section>
+</main>
+
+<!-- Modal para Adicionar/Editar Cliente -->
+<div class="modal" id="modalCliente">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModalCliente()">&times;</button>
+    <h2 id="modalTitulo">Adicionar Novo Cliente</h2>
+    <div id="formCliente">
+      <input type="hidden" id="clienteId">
+      <div class="form-group">
+        <label for="nomeCliente" class="form-label">Nome Completo *</label>
+        <input type="text" id="nomeCliente" class="form-control" placeholder="Ex: João Silva" required>
+      </div>
+      <div class="form-group">
+        <label for="telefoneCliente" class="form-label">Telefone</label>
+        <input type="tel" id="telefoneCliente" class="form-control" placeholder="(11) 99999-9999">
+      </div>
+      <div class="form-group">
+        <label for="emailCliente" class="form-label">Email</label>
+        <input type="email" id="emailCliente" class="form-control" placeholder="exemplo@email.com">
+      </div>
+      <div class="form-actions">
+        <button type="button" id="btnSalvarCliente" class="btn btn-success">
+          <i class="fas fa-save"></i> Salvar Cliente
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="closeModalCliente()">
+          <i class="fas fa-times"></i> Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-content">
+    <div class="footer-brand">
+      <a href="#" class="logo">Agendamento+</a>
+      <p>Sistema de Agendamento Online</p>
+    </div>
+    <nav class="footer-nav">
+      <a href="dashboard.html" class="nav-link">Dashboard</a>
+      <a href="serviços.html" class="nav-link">Serviços</a>
+      <a href="agendamento.html" class="nav-link">Agendamentos</a>
+      <a href="clientes.html" class="nav-link">Clientes</a>
+      <a href="perfil.html" class="nav-link">Perfil</a>
+    </nav>
+ <div class="footer-social">
+  <a href="https://www.instagram.com/agendamentomais/?next=%2F" target="_blank" class="footer-link" title="Instagram">
+    <i class="fab fa-instagram"></i>
+  </a>
+  <a href="https://wa.me/5561985825956" target="_blank" class="footer-link" title="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+  <div class="footer-copy">
+    <p>&copy; 2025 Agendamento+. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script src="snow-universal.js"></script>
+<script src="header.js"></script>
+<script>
+// GERENCIAMENTO DE CLIENTES COM BANCO DE DADOS FLASK
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('modalCliente');
+  const formContainer = document.getElementById('formCliente');
+  const tabelaBody = document.getElementById('tabelaClientesBody');
+  const emptyState = document.getElementById('emptyState');
+  const btnAddCliente = document.getElementById('btnAddCliente');
+  const btnSalvarCliente = document.getElementById('btnSalvarCliente');
+
+  let todosClientes = [];
+  let clienteEditando = null;
+  let filtrosAtivos = {
+    nome: '',
+    telefone: '',
+    email: ''
+  };
+
+  // =====================
+  // FILTROS
+  // =====================
+  function toggleFiltros() {
+    const filtrosContent = document.getElementById('filtrosContent');
+    const toggleBtn = document.getElementById('toggleFiltros');
+    
+    if (filtrosContent.style.display === 'none') {
+      filtrosContent.style.display = 'grid';
+      toggleBtn.innerHTML = '<i class="fas fa-filter"></i> Ocultar Filtros';
+    } else {
+      filtrosContent.style.display = 'none';
+      toggleBtn.innerHTML = '<i class="fas fa-filter"></i> Mostrar Filtros';
+    }
+  }
+
+  function aplicarFiltros() {
+    filtrosAtivos = {
+      nome: document.getElementById('filtroNome').value.toLowerCase(),
+      telefone: document.getElementById('filtroTelefone').value.toLowerCase(),
+      email: document.getElementById('filtroEmail').value.toLowerCase()
+    };
+    
+    filtrarClientes();
+  }
+
+  function limparFiltros() {
+    document.getElementById('filtroNome').value = '';
+    document.getElementById('filtroTelefone').value = '';
+    document.getElementById('filtroEmail').value = '';
+    
+    filtrosAtivos = {
+      nome: '',
+      telefone: '',
+      email: ''
+    };
+    
+    filtrarClientes();
+  }
+
+  function filtrarClientes() {
+    let clientesFiltrados = [...todosClientes];
+    
+    // Filtrar por nome
+    if (filtrosAtivos.nome) {
+      clientesFiltrados = clientesFiltrados.filter(cliente => 
+        cliente.nome.toLowerCase().includes(filtrosAtivos.nome)
+      );
+    }
+    
+    // Filtrar por telefone
+    if (filtrosAtivos.telefone) {
+      clientesFiltrados = clientesFiltrados.filter(cliente => 
+        cliente.telefone && cliente.telefone.toLowerCase().includes(filtrosAtivos.telefone)
+      );
+    }
+    
+    // Filtrar por email
+    if (filtrosAtivos.email) {
+      clientesFiltrados = clientesFiltrados.filter(cliente => 
+        cliente.email && cliente.email.toLowerCase().includes(filtrosAtivos.email)
+      );
+    }
+    
+    atualizarTabela(clientesFiltrados);
+  }
+
+  // =====================
+  // MODAL DE CLIENTES - FUNÇÕES GLOBAIS
+  // =====================
+  btnAddCliente.addEventListener('click', () => { 
+    abrirModalNovoCliente();
+  });
+
+  window.abrirModalNovoCliente = () => {
+    clienteEditando = null;
+    modal.style.display = 'flex'; 
+    document.getElementById('modalTitulo').textContent = 'Adicionar Novo Cliente';
+    document.getElementById('clienteId').value = '';
+    document.getElementById('nomeCliente').value = '';
+    document.getElementById('telefoneCliente').value = '';
+    document.getElementById('emailCliente').value = '';
+    document.getElementById('nomeCliente').focus();
+  }
+
+  window.editarCliente = (clienteId) => {
+    const cliente = todosClientes.find(c => c.id === clienteId);
+    if (cliente) {
+      clienteEditando = clienteId;
+      modal.style.display = 'flex';
+      document.getElementById('modalTitulo').textContent = 'Editar Cliente';
+      document.getElementById('clienteId').value = cliente.id;
+      document.getElementById('nomeCliente').value = cliente.nome;
+      document.getElementById('telefoneCliente').value = cliente.telefone || '';
+      document.getElementById('emailCliente').value = cliente.email || '';
+      document.getElementById('nomeCliente').focus();
+    }
+  }
+
+  window.closeModalCliente = () => { 
+    modal.style.display = 'none'; 
+    clienteEditando = null;
+  }
+
+  // Fecha modal clicando fora do conteúdo
+  modal.addEventListener('click', e => { 
+    if (e.target === modal) closeModalCliente(); 
+  });
+
+  // Fecha modal com ESC
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (modal.style.display === 'flex') closeModalCliente();
+    }
+  });
+
+  // =====================
+  // SALVAR CLIENTE (botão separado - NÃO é submit)
+  // =====================
+  btnSalvarCliente.addEventListener('click', async () => {
+    const clienteId = document.getElementById('clienteId').value;
+    const nome = document.getElementById('nomeCliente').value.trim();
+    const telefone = document.getElementById('telefoneCliente').value.trim();
+    const email = document.getElementById('emailCliente').value.trim();
+    
+    // Validações
+    if (!nome) {
+      alert('Nome é obrigatório');
+      document.getElementById('nomeCliente').focus();
+      return;
+    }
+    
+    // Validação básica de email
+    if (email && !isValidEmail(email)) {
+      alert('Por favor, insira um email válido');
+      document.getElementById('emailCliente').focus();
+      return;
+    }
+    
+    // Validação básica de telefone
+    if (telefone && telefone.replace(/\D/g, '').length < 10) {
+      alert('Por favor, insira um telefone válido com DDD');
+      document.getElementById('telefoneCliente').focus();
+      return;
+    }
+    
+    const dadosCliente = {
+      nome: nome,
+      telefone: telefone,
+      email: email
+    };
+
+    try {
+      let url = '/api/clientes';
+      let method = 'POST';
+
+      // Se está editando, muda para PUT
+      if (clienteId) {
+        url = `/api/clientes/${clienteId}`;
+        method = 'PUT';
+      }
+      
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dadosCliente)
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        alert(data.message);
+        closeModalCliente();
+        carregarClientes();
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      alert('Erro ao salvar cliente');
+    }
+  });
+
+  // Permitir salvar com Enter (mas sem submit de formulário)
+  document.getElementById('formCliente').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevenir comportamento padrão do Enter
+      btnSalvarCliente.click();
+    }
+  });
+
+  // =====================
+  // CARREGAR CLIENTES DO BANCO
+  // =====================
+  async function carregarClientes() {
+    try {
+      const response = await fetch('/api/clientes');
+      
+      if (!response.ok) {
+        throw new Error('Erro ao carregar clientes');
+      }
+      
+      const clientes = await response.json();
+      todosClientes = clientes;
+      filtrarClientes();
+      
+    } catch (error) {
+      console.error('Erro ao carregar clientes:', error);
+      emptyState.style.display = 'block';
+      emptyState.innerHTML = `
+        <h3>Erro ao carregar clientes</h3>
+        <p>Tente recarregar a página</p>
+      `;
+    }
+  }
+
+  function atualizarTabela(clientes) {
+    tabelaBody.innerHTML = '';
+    
+    if (clientes.length === 0) {
+      emptyState.style.display = 'block';
+      return;
+    }
+    
+    emptyState.style.display = 'none';
+    
+    // Ordenar clientes por nome
+    clientes.sort((a, b) => a.nome.localeCompare(b.nome));
+    
+    clientes.forEach(cliente => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${cliente.nome}</td>
+        <td>${cliente.telefone || '-'}</td>
+        <td>${cliente.email || '-'}</td>
+        <td>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="btn btn-primary btn-sm" onclick="editarCliente(${cliente.id})">
+              <i class="fas fa-edit"></i> Editar
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="excluirCliente(${cliente.id})">
+              <i class="fas fa-trash"></i> Excluir
+            </button>
+          </div>
+        </td>
+      `;
+      tabelaBody.appendChild(tr);
+    });
+  }
+
+  // Função auxiliar para validar email
+  function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  window.excluirCliente = (clienteId) => {
+    if (confirm('Tem certeza que deseja excluir este cliente?')) {
+      fetch(`/api/clientes/${clienteId}`, {
+        method: 'DELETE'
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert(data.message);
+          carregarClientes();
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao excluir cliente');
+      });
+    }
+  };
+
+  // =====================
+  // INICIALIZAÇÃO
+  // =====================
+  
+  // Event listeners para os filtros
+  document.getElementById('toggleFiltros').addEventListener('click', toggleFiltros);
+  document.getElementById('btnAplicarFiltros').addEventListener('click', aplicarFiltros);
+  document.getElementById('btnLimparFiltros').addEventListener('click', limparFiltros);
+
+// NOTIFICAÇÕES POR PÁGINA
+const notificacoesPorPagina = {
+  'perfil.html': {
+    titulo: 'Perfil atualizado!',
+    mensagem: 'Suas informações foram salvas com sucesso.',
+    icone: 'fa-user-check',
+    cor: 'success'
+  },
+  'cadastro.html': {
+    titulo: 'Cadastro realizado!',
+    mensagem: 'Novo registro adicionado ao sistema.',
+    icone: 'fa-user-plus',
+    cor: 'success'
+  },
+  'servico.html': {
+    titulo: 'Serviço configurado!',
+    mensagem: 'As alterações foram aplicadas com sucesso.',
+    icone: 'fa-cog',
+    cor: 'info'
+  },
+  'agendamento.html': {
+    titulo: 'Agendamento confirmado!',
+    mensagem: 'O agendamento foi registrado no sistema.',
+    icone: 'fa-calendar-check',
+    cor: 'success'
+  },
+  'configuracoes.html': {
+    titulo: 'Configurações salvas!',
+    mensagem: 'Suas preferências foram atualizadas.',
+    icone: 'fa-save',
+    cor: 'info'
+  }
+};
+
+// CONFIGURAÇÃO DAS CORES
+const coresNotificacao = {
+  success: '#28a745',
+  info: '#17a2b8',
+  warning: '#ffc107',
+  error: '#dc3545',
+  primary: '#007bff'
+};
+
+// FUNÇÃO PRINCIPAL - MOSTRAR NOTIFICAÇÃO
+function mostrarNotificacaoPagina() {
+  // Obtém o nome do arquivo atual
+  const paginaAtual = window.location.pathname.split('/').pop() || 
+                      document.querySelector('title')?.textContent?.toLowerCase() + '.html' || 
+                      'index.html';
+  
+  // Encontra a configuração da página atual
+  let config = null;
+  
+  // Tenta encontrar por nome exato do arquivo
+  if (notificacoesPorPagina[paginaAtual]) {
+    config = notificacoesPorPagina[paginaAtual];
+  } else {
+    // Tenta encontrar por parte do nome
+    for (const pagina in notificacoesPorPagina) {
+      if (paginaAtual.includes(pagina.replace('.html', ''))) {
+        config = notificacoesPorPagina[pagina];
+        break;
+      }
+    }
+  }
+  
+  // Se não encontrou configuração, usa padrão
+  if (!config) {
+    config = {
+      titulo: 'Ação realizada!',
+      mensagem: 'Operação concluída com sucesso.',
+      icone: 'fa-check-circle',
+      cor: 'success'
+    };
+  }
+  
+  // Remove notificações antigas
+  const notificacoesAntigas = document.querySelectorAll('.notificacao-pagina');
+  notificacoesAntigas.forEach(notificacao => {
+    notificacao.classList.add('notificacao-saindo');
+    setTimeout(() => notificacao.remove(), 300);
+  });
+  
+  // Cria a notificação
+  criarNotificacao(config);
+}
+
+// FUNÇÃO PARA CRIAR A NOTIFICAÇÃO
+function criarNotificacao(config) {
+  const notification = document.createElement('div');
+  notification.className = 'notificacao-pagina';
+  notification.setAttribute('role', 'alert');
+  notification.setAttribute('aria-live', 'assertive');
+  
+  notification.innerHTML = `
+    <div class="notificacao-conteudo" style="
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${coresNotificacao[config.cor] || coresNotificacao.success};
+      color: white;
+      padding: 16px 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: entradaNotificacao 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      max-width: 380px;
+      min-width: 300px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      border-left: 5px solid rgba(255,255,255,0.3);
+    ">
+      <div class="notificacao-icone" style="
+        font-size: 1.4rem;
+        background: rgba(255,255,255,0.2);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      ">
+        <i class="fas ${config.icone}"></i>
+      </div>
+      
+      <div class="notificacao-texto" style="flex: 1;">
+        <div class="notificacao-titulo" style="
+          font-weight: 700;
+          font-size: 1rem;
+          margin-bottom: 4px;
+        ">
+          ${config.titulo}
+        </div>
+        <div class="notificacao-mensagem" style="
+          font-size: 0.875rem;
+          opacity: 0.9;
+          line-height: 1.4;
+        ">
+          ${config.mensagem}
+        </div>
+      </div>
+      
+      <button class="notificacao-fechar" onclick="this.closest('.notificacao-pagina').remove()" 
+              style="
+                background: none;
+                border: none;
+                color: white;
+                cursor: pointer;
+                font-size: 1.4rem;
+                opacity: 0.7;
+                padding: 0 8px;
+                line-height: 1;
+                transition: opacity 0.2s;
+                align-self: flex-start;
+              "
+              aria-label="Fechar notificação">
+        &times;
+      </button>
+    </div>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Adiciona efeito hover no botão de fechar
+  const btnFechar = notification.querySelector('.notificacao-fechar');
+  btnFechar.addEventListener('mouseenter', () => {
+    btnFechar.style.opacity = '1';
+  });
+  btnFechar.addEventListener('mouseleave', () => {
+    btnFechar.style.opacity = '0.7';
+  });
+  
+  // Remove automaticamente após 5 segundos
+  setTimeout(() => {
+    if (notification && notification.parentNode) {
+      notification.querySelector('.notificacao-conteudo').style.animation = 'saidaNotificacao 0.3s ease forwards';
+      setTimeout(() => {
+        if (notification && notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 300);
+    }
+  }, 5000);
+}
+
+// FUNÇÃO PARA ADICIONAR ESTILOS
+function adicionarEstilosNotificacao() {
+  if (document.querySelector('#estilos-notificacao')) return;
+  
+  const style = document.createElement('style');
+  style.id = 'estilos-notificacao';
+  
+  style.textContent = `
+    /* Animações */
+    @keyframes entradaNotificacao {
+      from {
+        transform: translateX(100%) translateY(-20px) scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes saidaNotificacao {
+      from {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100%) translateY(-20px) scale(0.9);
+        opacity: 0;
+      }
+    }
+    
+    /* Efeitos de hover */
+    .notificacao-pagina .notificacao-conteudo:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .notificacao-pagina .notificacao-conteudo {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        min-width: auto;
+        margin: 0 auto;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .notificacao-pagina .notificacao-conteudo {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+        gap: 15px;
+      }
+      
+      .notificacao-pagina .notificacao-fechar {
+        align-self: center !important;
+        margin-top: 10px;
+      }
+    }
+    
+    /* Suporte a tema escuro */
+    [data-theme="dark"] .notificacao-pagina .notificacao-conteudo {
+      background: var(--success-color) !important;
+    }
+    
+    /* Acessibilidade - foco */
+    .notificacao-fechar:focus {
+      outline: 2px solid white;
+      outline-offset: 2px;
+    }
+    
+    /* Classe para remoção suave */
+    .notificacao-saindo .notificacao-conteudo {
+      animation: saidaNotificacao 0.3s ease forwards !important;
+    }
+  `;
+  
+  document.head.appendChild(style);
+}
+
+// FUNÇÃO PARA MOSTRAR NOTIFICAÇÃO PERSONALIZADA
+function notificarAcao(titulo, mensagem, tipo = 'success', icone = null) {
+  const iconesPadrao = {
+    success: 'fa-check-circle',
+    info: 'fa-info-circle',
+    warning: 'fa-exclamation-triangle',
+    error: 'fa-times-circle',
+    primary: 'fa-bell'
+  };
+  
+  const config = {
+    titulo: titulo,
+    mensagem: mensagem,
+    icone: icone || iconesPadrao[tipo] || 'fa-check-circle',
+    cor: tipo
+  };
+  
+  criarNotificacao(config);
+}
+
+// INICIALIZAÇÃO - MOSTRA NOTIFICAÇÃO AO CARREGAR
+document.addEventListener('DOMContentLoaded', function() {
+  // Adiciona estilos
+  adicionarEstilosNotificacao();
+  
+  // Aguarda um pouco para mostrar a notificação
+  setTimeout(function() {
+    mostrarNotificacaoPagina();
+  }, 1000); // 1 segundo após carregar
+});
+
+// FUNÇÕES PARA USO EM FORMULÁRIOS
+function configurarFormularios() {
+  // Adiciona eventos aos formulários
+  const forms = document.querySelectorAll('form');
+  
+  forms.forEach(form => {
+    form.addEventListener('submit', function(e) {
+      // Se o formulário tiver validação, você pode adicionar aqui
+      
+      // Após envio bem-sucedido (em um cenário real, isso seria no callback do submit)
+      setTimeout(() => {
+        const pagina = window.location.pathname.split('/').pop();
+        
+        switch(pagina) {
+          case 'perfil.html':
+            notificarAcao('Perfil Atualizado!', 'Suas alterações foram salvas com sucesso.', 'success');
+            break;
+          case 'cadastro.html':
+            notificarAcao('Cadastro Realizado!', 'Novo registro adicionado ao banco de dados.', 'success');
+            break;
+          case 'servico.html':
+            notificarAcao('Serviço Configurado!', 'Configurações do serviço foram aplicadas.', 'info');
+            break;
+          case 'agendamento.html':
+            notificarAcao('Agendamento Confirmado!', 'O agendamento foi registrado com sucesso.', 'success');
+            break;
+          case 'configuracoes.html':
+            notificarAcao('Configurações Salvas!', 'Suas preferências foram atualizadas.', 'info');
+            break;
+          default:
+            notificarAcao('Ação Concluída!', 'Operação realizada com sucesso.', 'success');
+        }
+      }, 800);
+    });
+  });
+}
+
+// Para usar manualmente em qualquer lugar da página
+// Exemplo: <button onclick="notificarAcao('Sucesso!', 'Operação realizada.', 'success')">Testar</button>
+
+// Para usar em chamadas AJAX
+function notificarSucessoAJAX(mensagem) {
+  const pagina = window.location.pathname.split('/').pop();
+  let titulo = 'Sucesso!';
+  
+  switch(pagina) {
+    case 'perfil.html': titulo = 'Perfil Atualizado!'; break;
+    case 'cadastro.html': titulo = 'Cadastro Realizado!'; break;
+    case 'serviços.html': titulo = 'Serviço Configurado!'; break;
+    case 'agendamento.html': titulo = 'Agendamento Confirmado!'; break;
+    case 'configuracoes.html': titulo = 'Configurações Salvas!'; break;
+  }
+  
+  notificarAcao(titulo, mensagem, 'success');
+}
+
+// Adiciona configuração de formulários ao carregar
+document.addEventListener('DOMContentLoaded', configurarFormularios);
+
+// Variável global para acesso fácil
+window.notificar = notificarAcao;
+  // Carregar clientes ao iniciar
+  carregarClientes();
+});
+// NOTIFICAÇÕES PARA CLIENTES.HTML
+const notificacoesClientes = {
+  'clientes.html': {
+    titulo: 'Clientes gerenciados!',
+    mensagem: 'Ações sobre clientes foram processadas com sucesso.',
+    icone: 'fa-users',
+    cor: 'success'
+  }
+};
+
+// CONFIGURAÇÃO DAS CORES
+const coresNotificacao = {
+  success: '#28a745',
+  info: '#17a2b8',
+  warning: '#ffc107',
+  error: '#dc3545',
+  primary: '#007bff'
+};
+
+// AÇÕES ESPECÍFICAS PARA CLIENTES
+const acoesClientes = {
+  'cadastrar': {
+    titulo: 'Cliente cadastrado!',
+    mensagem: 'Novo cliente adicionado ao sistema.',
+    icone: 'fa-user-plus',
+    cor: 'success'
+  },
+  'editar': {
+    titulo: 'Cliente atualizado!',
+    mensagem: 'As informações do cliente foram salvas.',
+    icone: 'fa-user-edit',
+    cor: 'info'
+  },
+  'excluir': {
+    titulo: 'Cliente removido!',
+    mensagem: 'Cliente foi excluído do sistema.',
+    icone: 'fa-user-times',
+    cor: 'warning'
+  },
+  'bloquear': {
+    titulo: 'Cliente bloqueado!',
+    mensagem: 'Cliente foi temporariamente bloqueado.',
+    icone: 'fa-user-lock',
+    cor: 'warning'
+  },
+  'ativar': {
+    titulo: 'Cliente ativado!',
+    mensagem: 'Cliente foi reativado no sistema.',
+    icone: 'fa-user-check',
+    cor: 'success'
+  },
+  'importar': {
+    titulo: 'Clientes importados!',
+    mensagem: 'Lista de clientes importada com sucesso.',
+    icone: 'fa-file-import',
+    cor: 'info'
+  },
+  'exportar': {
+    titulo: 'Clientes exportados!',
+    mensagem: 'Lista de clientes exportada com sucesso.',
+    icone: 'fa-file-export',
+    cor: 'info'
+  }
+};
+
+// FUNÇÃO PRINCIPAL - MOSTRAR NOTIFICAÇÃO
+function mostrarNotificacaoClientes(acao = null) {
+  // Se uma ação específica foi passada
+  if (acao && acoesClientes[acao]) {
+    criarNotificacaoClientes(acoesClientes[acao]);
+    return;
+  }
+  
+  // Obtém o nome do arquivo atual
+  const paginaAtual = window.location.pathname.split('/').pop();
+  
+  // Verifica se está na página de clientes
+  if (paginaAtual === 'clientes.html' || paginaAtual.includes('clientes')) {
+    // Mostra notificação padrão para página de clientes
+    criarNotificacaoClientes(notificacoesClientes['clientes.html']);
+  }
+}
+
+// FUNÇÃO PARA CRIAR A NOTIFICAÇÃO
+function criarNotificacaoClientes(config) {
+  // Remove notificações antigas
+  const notificacoesAntigas = document.querySelectorAll('.notificacao-clientes');
+  notificacoesAntigas.forEach(notificacao => {
+    notificacao.classList.add('notificacao-saindo');
+    setTimeout(() => notificacao.remove(), 300);
+  });
+  
+  const notification = document.createElement('div');
+  notification.className = 'notificacao-clientes';
+  notification.setAttribute('role', 'alert');
+  notification.setAttribute('aria-live', 'assertive');
+  
+  notification.innerHTML = `
+    <div class="notificacao-conteudo-clientes" style="
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${coresNotificacao[config.cor] || coresNotificacao.success};
+      color: white;
+      padding: 16px 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: entradaNotificacaoClientes 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      max-width: 400px;
+      min-width: 320px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      border-left: 5px solid rgba(255,255,255,0.3);
+      backdrop-filter: blur(10px);
+    ">
+      <div class="notificacao-icone-clientes" style="
+        font-size: 1.4rem;
+        background: rgba(255,255,255,0.2);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      ">
+        <i class="fas ${config.icone}"></i>
+      </div>
+      
+      <div class="notificacao-texto-clientes" style="flex: 1;">
+        <div class="notificacao-titulo-clientes" style="
+          font-weight: 700;
+          font-size: 1.05rem;
+          margin-bottom: 4px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        ">
+          ${config.titulo}
+          <span class="notificacao-badge" style="
+            background: rgba(255,255,255,0.3);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+          ">
+            CLIENTES
+          </span>
+        </div>
+        <div class="notificacao-mensagem-clientes" style="
+          font-size: 0.875rem;
+          opacity: 0.95;
+          line-height: 1.4;
+        ">
+          ${config.mensagem}
+        </div>
+      </div>
+      
+      <button class="notificacao-fechar-clientes" onclick="this.closest('.notificacao-clientes').remove()" 
+              style="
+                background: rgba(255,255,255,0.2);
+                border: none;
+                color: white;
+                cursor: pointer;
+                font-size: 1.2rem;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.2s;
+                flex-shrink: 0;
+                padding: 0;
+              "
+              aria-label="Fechar notificação"
+              title="Fechar">
+        &times;
+      </button>
+    </div>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Efeitos de hover
+  const conteudo = notification.querySelector('.notificacao-conteudo-clientes');
+  const btnFechar = notification.querySelector('.notificacao-fechar-clientes');
+  
+  conteudo.addEventListener('mouseenter', () => {
+    conteudo.style.transform = 'translateY(-2px)';
+    conteudo.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)';
+  });
+  
+  conteudo.addEventListener('mouseleave', () => {
+    conteudo.style.transform = 'translateY(0)';
+    conteudo.style.boxShadow = '0 6px 20px rgba(0,0,0,0.15)';
+  });
+  
+  btnFechar.addEventListener('mouseenter', () => {
+    btnFechar.style.background = 'rgba(255,255,255,0.3)';
+    btnFechar.style.transform = 'scale(1.1)';
+  });
+  
+  btnFechar.addEventListener('mouseleave', () => {
+    btnFechar.style.background = 'rgba(255,255,255,0.2)';
+    btnFechar.style.transform = 'scale(1)';
+  });
+  
+  // Remove automaticamente após 5 segundos
+  setTimeout(() => {
+    if (notification && notification.parentNode) {
+      conteudo.style.animation = 'saidaNotificacaoClientes 0.3s ease forwards';
+      setTimeout(() => {
+        if (notification && notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 300);
+    }
+  }, 5000);
+}
+
+// FUNÇÃO PARA ADICIONAR ESTILOS
+function adicionarEstilosNotificacaoClientes() {
+  if (document.querySelector('#estilos-notificacao-clientes')) return;
+  
+  const style = document.createElement('style');
+  style.id = 'estilos-notificacao-clientes';
+  
+  style.textContent = `
+    /* Animações */
+    @keyframes entradaNotificacaoClientes {
+      from {
+        transform: translateX(100%) translateY(-20px) scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes saidaNotificacaoClientes {
+      from {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100%) translateY(-20px) scale(0.9);
+        opacity: 0;
+      }
+    }
+    
+    /* Efeito de notificação piscando (opcional) */
+    .notificacao-clientes .notificacao-conteudo-clientes {
+      animation: entradaNotificacaoClientes 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+                pulseBorder 2s infinite;
+    }
+    
+    @keyframes pulseBorder {
+      0%, 100% { border-left-color: rgba(255,255,255,0.3); }
+      50% { border-left-color: rgba(255,255,255,0.7); }
+    }
+    
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .notificacao-clientes .notificacao-conteudo-clientes {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        min-width: auto;
+        margin: 0 auto;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .notificacao-clientes .notificacao-conteudo-clientes {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+        gap: 15px;
+      }
+      
+      .notificacao-clientes .notificacao-titulo-clientes {
+        flex-direction: column;
+        gap: 5px;
+      }
+      
+      .notificacao-clientes .notificacao-fechar-clientes {
+        margin-top: 10px;
+        align-self: center;
+      }
+    }
+    
+    /* Suporte a tema escuro */
+    [data-theme="dark"] .notificacao-clientes .notificacao-conteudo-clientes {
+      background: var(--success-color) !important;
+    }
+    
+    /* Acessibilidade */
+    .notificacao-fechar-clientes:focus {
+      outline: 2px solid white;
+      outline-offset: 2px;
+    }
+    
+    /* Classe para remoção suave */
+    .notificacao-saindo .notificacao-conteudo-clientes {
+      animation: saidaNotificacaoClientes 0.3s ease forwards !important;
+    }
+  `;
+  
+  document.head.appendChild(style);
+}
+
+// FUNÇÃO PARA NOTIFICAÇÕES PERSONALIZADAS
+function notificarCliente(acao, mensagemPersonalizada = null) {
+  if (!acoesClientes[acao]) {
+    acao = 'cadastrar'; // Fallback para ação padrão
+  }
+  
+  const config = { ...acoesClientes[acao] };
+  
+  if (mensagemPersonalizada) {
+    config.mensagem = mensagemPersonalizada;
+  }
+  
+  criarNotificacaoClientes(config);
+}
+
+// CONFIGURAÇÃO DE FORMULÁRIOS E BOTÕES
+function configurarEventosClientes() {
+  // Configura formulários de clientes
+  const formCliente = document.querySelector('form');
+  if (formCliente) {
+    formCliente.addEventListener('submit', function(e) {
+      // Em um cenário real, isso seria no callback de sucesso
+      setTimeout(() => {
+        const isEditing = formCliente.querySelector('input[name="id"]')?.value;
+        notificarCliente(isEditing ? 'editar' : 'cadastrar');
+      }, 800);
+    });
+  }
+  
+  // Configura botões de ação
+  const botoesAcao = {
+    '.btn-excluir-cliente, [data-action="excluir"]': 'excluir',
+    '.btn-bloquear-cliente, [data-action="bloquear"]': 'bloquear',
+    '.btn-ativar-cliente, [data-action="ativar"]': 'ativar',
+    '.btn-importar-clientes, [data-action="importar"]': 'importar',
+    '.btn-exportar-clientes, [data-action="exportar"]': 'exportar'
+  };
+  
+  Object.entries(botoesAcao).forEach(([seletor, acao]) => {
+    document.querySelectorAll(seletor).forEach(botao => {
+      botao.addEventListener('click', function(e) {
+        // Para links, previne o comportamento padrão para demonstração
+        if (this.tagName === 'A') {
+          e.preventDefault();
+        }
+        
+        // Simula ação bem-sucedida
+        setTimeout(() => {
+          notificarCliente(acao);
+        }, 600);
+      });
+    });
+  });
+  
+  // Configura botões na tabela
+  const tabela = document.querySelector('table');
+  if (tabela) {
+    tabela.addEventListener('click', function(e) {
+      const botao = e.target.closest('button, a');
+      if (!botao) return;
+      
+      const textoBotao = botao.textContent.toLowerCase();
+      
+      if (textoBotao.includes('excluir') || textoBotao.includes('remover')) {
+        e.preventDefault();
+        setTimeout(() => {
+          notificarCliente('excluir', 'Cliente removido da lista com sucesso.');
+        }, 600);
+      }
+      
+      if (textoBotao.includes('editar') || textoBotao.includes('alterar')) {
+        e.preventDefault();
+        setTimeout(() => {
+          notificarCliente('editar', 'Informações do cliente atualizadas.');
+        }, 600);
+      }
+    });
+  }
+}
+
+// INICIALIZAÇÃO
+document.addEventListener('DOMContentLoaded', function() {
+  // Adiciona estilos
+  adicionarEstilosNotificacaoClientes();
+  
+  // Verifica se estamos na página de clientes
+  const paginaAtual = window.location.pathname.split('/').pop();
+  if (paginaAtual === 'clientes.html' || document.title.includes('Clientes')) {
+    
+    // Mostra notificação inicial (opcional - descomente se quiser)
+    // setTimeout(() => {
+    //   mostrarNotificacaoClientes();
+    // }, 1200);
+    
+    // Configura eventos
+    configurarEventosClientes();
+  }
+});
+
+// FUNÇÕES GLOBAIS PARA USO MANUAL
+window.notificarCliente = notificarCliente;
+window.mostrarNotificacaoClientes = mostrarNotificacaoClientes;
+
+// Exemplos de uso manual:
+// notificarCliente('cadastrar');
+// notificarCliente('editar', 'Os dados do cliente foram atualizados com sucesso!');
+// notificarCliente('excluir');
+// notificarCliente('importar', '25 clientes importados do arquivo CSV.');
+</script>
+</body>
+</html>
