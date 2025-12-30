@@ -515,39 +515,8 @@ document.addEventListener('DOMContentLoaded', () => {
   carregarPerfil();
 });
 // NOTIFICAÇÕES POR PÁGINA
-const notificacoesPorPagina = {
-  'perfil.html': {
-    titulo: 'Perfil atualizado!',
-    mensagem: 'Suas informações foram salvas com sucesso.',
-    icone: 'fa-user-check',
-    cor: 'success'
-  },
-  'cadastro.html': {
-    titulo: 'Cadastro realizado!',
-    mensagem: 'Novo registro adicionado ao sistema.',
-    icone: 'fa-user-plus',
-    cor: 'success'
-  },
-  'servico.html': {
-    titulo: 'Serviço configurado!',
-    mensagem: 'As alterações foram aplicadas com sucesso.',
-    icone: 'fa-cog',
-    cor: 'info'
-  },
-  'agendamento.html': {
-    titulo: 'Agendamento confirmado!',
-    mensagem: 'O agendamento foi registrado no sistema.',
-    icone: 'fa-calendar-check',
-    cor: 'success'
-  },
-  'configuracoes.html': {
-    titulo: 'Configurações salvas!',
-    mensagem: 'Suas preferências foram atualizadas.',
-    icone: 'fa-save',
-    cor: 'info'
-  }
-};
 
+  
 // CONFIGURAÇÃO DAS CORES
 const coresNotificacao = {
   success: '#28a745',
@@ -581,14 +550,7 @@ function mostrarNotificacaoPagina() {
   }
   
   // Se não encontrou configuração, usa padrão
-  if (!config) {
-    config = {
-      titulo: 'Ação realizada!',
-      mensagem: 'Operação concluída com sucesso.',
-      icone: 'fa-check-circle',
-      cor: 'success'
-    };
-  }
+
   
   // Remove notificações antigas
   const notificacoesAntigas = document.querySelectorAll('.notificacao-pagina');
@@ -830,19 +792,19 @@ function configurarFormularios() {
         const pagina = window.location.pathname.split('/').pop();
         
         switch(pagina) {
-          case 'perfil.html':
+          case '':
             notificarAcao('Perfil Atualizado!', 'Suas alterações foram salvas com sucesso.', 'success');
             break;
-          case 'cadastro.html':
+          case '':
             notificarAcao('Cadastro Realizado!', 'Novo registro adicionado ao banco de dados.', 'success');
             break;
-          case 'servico.html':
+          case '':
             notificarAcao('Serviço Configurado!', 'Configurações do serviço foram aplicadas.', 'info');
             break;
-          case 'agendamento.html':
+          case '':
             notificarAcao('Agendamento Confirmado!', 'O agendamento foi registrado com sucesso.', 'success');
             break;
-          case 'configuracoes.html':
+          case '':
             notificarAcao('Configurações Salvas!', 'Suas preferências foram atualizadas.', 'info');
             break;
           default:
